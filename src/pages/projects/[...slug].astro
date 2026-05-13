@@ -1,0 +1,84 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+const { title, description, tech, links, company, role, date } = project.data;
+
+const fmt = (d?: Date) =>
+  d ? new Intl.DateTimeFormat("es-ES", { year: "numeric", month: "long" }).format(d) : null;
+
+const when = fmt(date);
+---
+
+<Layout title={`${title} | Frank Villar`}>
+  <main class="max-w-4xl mx-auto px-6 pt-28 pb-20">
+    <a href="/#proyectos" class="text-sm font-mono text-slate-400 hover:text-amber-400 transition">
+      ← volver_a_proyectos
+    </a>
+
+    <header class="mt-8">
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white">
+        {title}
+      </h1>
+      <p class="mt-4 text-slate-400 text-lg leading-relaxed max-w-2xl">
+        {description}
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-3 text-sm font-mono text-slate-400">
+        {company && <span class="px-3 py-1 rounded-lg border border-neutral-800 bg-neutral-900">{company}</span>}
+        {role && <span class="px-3 py-1 rounded-lg border border-neutral-800 bg-neutral-900">{role}</span>}
+        {when && <span class="px-3 py-1 rounded-lg border border-neutral-800 bg-neutral-900">{when}</span>}
+      </div>
+
+      {tech?.length ? (
+        <div class="mt-6 flex flex-wrap gap-2">
+          {tech.map((t) => (
+            <span class="text-xs font-mono px-3 py-1.5 bg-neutral-950 text-amber-400/90 rounded-lg border border-neutral-700">
+              {t}
+            </span>
+          ))}
+        </div>
+      ) : null}
+
+      {links && (links.demo || links.github) ? (
+        <div class="mt-8 flex flex-wrap gap-4 font-mono text-sm">
+          {links.demo && (
+            <a
+              href={links.demo}
+              target="_blank"
+              class="px-6 py-3 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-semibold rounded-xl transition-all shadow-lg shadow-amber-500/25"
+            >
+              ver_demo →
+            </a>
+          )}
+          {links.github && (
+            <a
+              href={links.github}
+              target="_blank"
+              class="px-6 py-3 border border-neutral-700 hover:border-amber-400 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-xl transition"
+            >
+              ver_codigo →
+            </a>
+          )}
+        </div>
+      ) : null}
+    </header>
+
+    <article class="prose prose-invert prose-neutral max-w-none mt-12
+      prose-headings:font-semibold prose-headings:text-white
+      prose-a:text-amber-300 hover:prose-a:text-amber-200
+      prose-strong:text-slate-100
+      prose-code:text-amber-300 prose-code:bg-neutral-900 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+      prose-hr:border-neutral-800">
+      <Content />
+    </article>
+  </main>
+</Layout>

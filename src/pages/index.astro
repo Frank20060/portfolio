@@ -2,22 +2,18 @@
 import '../styles/global.css' 
 import Layout from '../layouts/Layout.astro';
 
-const PROJECTS = [
-  {
-    title: "Backend M-Automoción",
-    description: "Desarrollo y evolución del backend con Python y Django para herramientas internas del grupo automoción. APIs REST para integración de sistemas logísticos.",
-    tech: ["Python", "Django", "DRF", "PostgreSQL"],
-    link: "#",
-    github: "#"
-  },
-  {
-    title: "Próximamente...",
-    description: "Proyecto personal en desarrollo. Estoy trabajando en nuevas ideas que publicaré pronto aquí.",
-    tech: ["React", "Next.js", "Node.js"],
-    link: "#",
-    github: "#"
-  }
-];
+import { getCollection } from "astro:content";
+import ProjectCard from "../components/ProjectCard.astro";
+
+const projects = await getCollection("projects");
+
+// opcional: ordenar por date desc si existe
+projects.sort((a, b) => {
+  const ad = a.data.date ? a.data.date.getTime() : 0;
+  const bd = b.data.date ? b.data.date.getTime() : 0;
+  return bd - ad;
+});
+
 
 const SKILLS = {
   lenguajes: ["Python", "JavaScript", "SQL", "PHP"],
@@ -118,7 +114,7 @@ const EDUCATION = [
 				⚡ Disponible para incorporación inmediata
 			</div>
 			<h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-tight">
-				Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 bg-clip-text text-transparent">Frank Villar</span>.
+				Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 bg-clip-text text-transparent">Frank Villar</span>
 			</h1>
 			<p class="text-xl md:text-2xl text-slate-300 font-medium mb-3">
 				Software Developer · Automation & Backend
@@ -201,37 +197,13 @@ const EDUCATION = [
 			</div>
 		</section>
 
-		<!-- PROYECTOS -->
 		<section id="proyectos" class="py-16 border-t border-neutral-800">
 			<h2 class="text-2xl font-bold mb-8 flex items-center gap-2 font-mono text-slate-200">
 				<span class="text-amber-400">#</span> proyectos
 			</h2>
+
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-				{PROJECTS.map((project) => (
-					<div class="group bg-neutral-900 border border-neutral-800 hover:border-amber-400/60 rounded-2xl p-7 transition-all duration-300 flex flex-col justify-between hover:-translate-y-0.5">
-						<div>
-							<h3 class="text-xl font-semibold mb-3 text-white group-hover:text-amber-300 transition">
-								{project.title}
-							</h3>
-							<p class="text-slate-400 text-[15px] leading-relaxed mb-6">
-								{project.description}
-							</p>
-						</div>
-						<div>
-							<div class="flex flex-wrap gap-2 mb-6">
-								{project.tech.map((t) => (
-									<span class="text-xs font-mono px-3 py-1.5 bg-neutral-950 text-amber-400/90 rounded-lg border border-neutral-700">
-										{t}
-									</span>
-								))}
-							</div>
-							<div class="flex gap-5 text-sm font-mono text-slate-400 border-t border-neutral-800 pt-5">
-								<a href={project.link} class="hover:text-amber-400 transition">🌐 Demo</a>
-								<a href={project.github} class="hover:text-amber-400 transition">💻 Código</a>
-							</div>
-						</div>
-					</div>
-				))}
+				{projects.map((p) => <ProjectCard project={p} />)}
 			</div>
 		</section>
 
