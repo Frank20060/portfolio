@@ -1,11 +1,325 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import '../styles/global.css' 
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const PROJECTS = [
+  {
+    title: "Backend M-Automoción",
+    description: "Desarrollo y evolución del backend con Python y Django para herramientas internas del grupo automoción. APIs REST para integración de sistemas logísticos.",
+    tech: ["Python", "Django", "DRF", "PostgreSQL"],
+    link: "#",
+    github: "#"
+  },
+  {
+    title: "Próximamente...",
+    description: "Proyecto personal en desarrollo. Estoy trabajando en nuevas ideas que publicaré pronto aquí.",
+    tech: ["React", "Next.js", "Node.js"],
+    link: "#",
+    github: "#"
+  }
+];
+
+const SKILLS = {
+  lenguajes: ["Python", "JavaScript", "SQL", "PHP"],
+  frameworks: ["Django", "Django REST Framework", "React", "Next.js", "Node.js"],
+  databases: ["PostgreSQL", "MySQL", "MongoDB"],
+  tools: ["Git", "Docker", "Postman", "Linux", "Pytest", "Power BI"]
+};
+
+const EXPERIENCE = [
+  {
+    role: "Desarrollador Backend",
+    company: "M-Automoción",
+    period: "Oct 2025 – Actualmente",
+    tasks: [
+      "Desarrollo y evolución del backend con Python y Django para herramientas internas del grupo",
+      "Diseño y mantenimiento de APIs REST (Django) para integración de sistemas logísticos, reduciendo tiempos de procesamiento",
+      "Optimización de consultas SQL y mejora del rendimiento de procesos internos",
+      "Colaboración con operaciones para traducir necesidades del negocio en soluciones automatizadas"
+    ]
+  },
+  {
+    role: "Técnico de mantenimiento y reparación",
+    company: "HERFRI SL",
+    period: "2023 – 2024",
+    tasks: [
+      "Mantenimiento y reparación de equipos y sistemas"
+    ]
+  },
+  {
+    role: "Técnico reparador de equipos informáticos",
+    company: "Revolution Computer",
+    period: "2023",
+    tasks: [
+      "Diagnóstico y reparación de hardware y software"
+    ]
+  }
+];
+
+const EDUCATION = [
+  {
+    title: "Grado en Ingeniería Informática",
+    center: "UOC",
+    period: "Inicio previsto 2026/27"
+  },
+  {
+    title: "DAW – Desarrollo de Aplicaciones Web (CFGS)",
+    center: "FP Llefià",
+    period: "Actualmente"
+  },
+  {
+    title: "SMR – Sistemas Microinformáticos y Redes (CFGM)",
+    center: "FP Llefià",
+    period: "2022 – 2024"
+  },
+  {
+    title: "Python Training (30h)",
+    center: "FP Llefià",
+    period: "2022"
+  }
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Frank Villar | Software Developer">
+	<!-- Navbar -->
+	<header class="fixed top-0 w-full backdrop-blur-md bg-neutral-950/90 border-b border-neutral-800 z-50">
+		<nav class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+			<a href="#" class="font-mono text-xl font-bold tracking-tighter text-white hover:text-amber-400 transition">
+				&lt;frank /&gt;
+			</a>
+			<div class="hidden sm:flex gap-6 text-sm font-mono text-slate-400">
+				<a href="#experiencia" class="hover:text-amber-400 transition">/experiencia</a>
+				<a href="#skills" class="hover:text-amber-400 transition">/skills</a>
+				<a href="#proyectos" class="hover:text-amber-400 transition">/proyectos</a>
+				<a href="#contacto" class="hover:text-amber-400 transition">/contacto</a>
+			</div>
+			<!-- Mobile menu button -->
+			<button id="menu-btn" class="sm:hidden text-slate-400 hover:text-amber-400 transition">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+				</svg>
+			</button>
+		</nav>
+		<!-- Mobile menu -->
+		<div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md">
+			<div class="flex flex-col gap-4 px-6 py-5 text-sm font-mono text-slate-400">
+				<a href="#experiencia" class="hover:text-amber-400 transition">/experiencia</a>
+				<a href="#skills" class="hover:text-amber-400 transition">/skills</a>
+				<a href="#proyectos" class="hover:text-amber-400 transition">/proyectos</a>
+				<a href="#contacto" class="hover:text-amber-400 transition">/contacto</a>
+			</div>
+		</div>
+	</header>
+
+	<main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
+		<!-- HERO -->
+		<section class="py-12 md:py-20">
+			<div class="inline-block px-3 py-1 mb-6 border border-amber-400/30 rounded-full bg-amber-400/10 text-amber-400 text-xs font-mono">
+				⚡ Disponible para incorporación inmediata
+			</div>
+			<h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-tight">
+				Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 bg-clip-text text-transparent">Frank Villar</span>.
+			</h1>
+			<p class="text-xl md:text-2xl text-slate-300 font-medium mb-3">
+				Software Developer · Automation & Backend
+			</p>
+			<p class="text-slate-400 text-lg max-w-2xl mb-8 leading-relaxed">
+				Desarrollador con base técnica en Python y Django, con experiencia 
+				en la automatización de flujos y gestión de datos en el sector automoción. 
+				Integración de procesos backend y APIs REST para optimizar logística.
+			</p>
+			<div class="flex flex-wrap gap-4 font-mono text-sm">
+				<a href="#contacto" 
+				   class="px-7 py-3.5 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-semibold rounded-xl transition-all shadow-lg shadow-amber-500/30 hover:shadow-amber-400/40">
+					Contactar
+				</a>
+				<a href="https://github.com/TU_USUARIO" target="_blank" 
+				   class="px-6 py-3.5 border border-neutral-700 hover:border-amber-400 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-xl transition flex items-center gap-2">
+					GitHub →
+				</a>
+				<a href="https://linkedin.com/in/TU_USUARIO" target="_blank" 
+				   class="px-6 py-3.5 border border-neutral-700 hover:border-amber-400 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-xl transition flex items-center gap-2">
+					LinkedIn →
+				</a>
+			</div>
+		</section>
+
+		<!-- SKILLS / TECH STACK -->
+		<section id="skills" class="py-16 border-t border-neutral-800">
+			<h2 class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
+				<span class="text-amber-400">#</span> stack_tecnológico
+			</h2>
+
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+				<!-- Lenguajes -->
+				<div>
+					<h3 class="text-sm font-mono text-amber-400 mb-4 uppercase tracking-wider">Lenguajes</h3>
+					<div class="flex flex-wrap gap-2">
+						{SKILLS.lenguajes.map((s) => (
+							<span class="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
+								{s}
+							</span>
+						))}
+					</div>
+				</div>
+
+				<!-- Frameworks -->
+				<div>
+					<h3 class="text-sm font-mono text-amber-400 mb-4 uppercase tracking-wider">Frameworks</h3>
+					<div class="flex flex-wrap gap-2">
+						{SKILLS.frameworks.map((s) => (
+							<span class="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
+								{s}
+							</span>
+						))}
+					</div>
+				</div>
+
+				<!-- Bases de datos -->
+				<div>
+					<h3 class="text-sm font-mono text-amber-400 mb-4 uppercase tracking-wider">Bases de datos</h3>
+					<div class="flex flex-wrap gap-2">
+						{SKILLS.databases.map((s) => (
+							<span class="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
+								{s}
+							</span>
+						))}
+					</div>
+				</div>
+
+				<!-- Herramientas -->
+				<div>
+					<h3 class="text-sm font-mono text-amber-400 mb-4 uppercase tracking-wider">Herramientas</h3>
+					<div class="flex flex-wrap gap-2">
+						{SKILLS.tools.map((s) => (
+							<span class="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
+								{s}
+							</span>
+						))}
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- PROYECTOS -->
+		<section id="proyectos" class="py-16 border-t border-neutral-800">
+			<h2 class="text-2xl font-bold mb-8 flex items-center gap-2 font-mono text-slate-200">
+				<span class="text-amber-400">#</span> proyectos
+			</h2>
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				{PROJECTS.map((project) => (
+					<div class="group bg-neutral-900 border border-neutral-800 hover:border-amber-400/60 rounded-2xl p-7 transition-all duration-300 flex flex-col justify-between hover:-translate-y-0.5">
+						<div>
+							<h3 class="text-xl font-semibold mb-3 text-white group-hover:text-amber-300 transition">
+								{project.title}
+							</h3>
+							<p class="text-slate-400 text-[15px] leading-relaxed mb-6">
+								{project.description}
+							</p>
+						</div>
+						<div>
+							<div class="flex flex-wrap gap-2 mb-6">
+								{project.tech.map((t) => (
+									<span class="text-xs font-mono px-3 py-1.5 bg-neutral-950 text-amber-400/90 rounded-lg border border-neutral-700">
+										{t}
+									</span>
+								))}
+							</div>
+							<div class="flex gap-5 text-sm font-mono text-slate-400 border-t border-neutral-800 pt-5">
+								<a href={project.link} class="hover:text-amber-400 transition">🌐 Demo</a>
+								<a href={project.github} class="hover:text-amber-400 transition">💻 Código</a>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- EXPERIENCIA LABORAL -->
+		<section id="experiencia" class="py-16 border-t border-neutral-800">
+			<h2 class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
+				<span class="text-amber-400">#</span> experiencia_laboral
+			</h2>
+			<div class="space-y-8">
+				{EXPERIENCE.map((job, i) => (
+					<div class={`relative pl-8 border-l-2 ${i === 0 ? 'border-amber-400' : 'border-neutral-700'}`}>
+						<!-- Dot -->
+						<div class={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 ${i === 0 ? 'border-amber-400 bg-amber-400/30' : 'border-neutral-600 bg-neutral-800'}`}></div>
+						
+						<div class="mb-1 flex flex-wrap items-center gap-3">
+							<h3 class="text-lg font-semibold text-white">{job.role}</h3>
+							{i === 0 && (
+								<span class="text-[10px] font-mono px-2 py-0.5 bg-amber-400/15 text-amber-400 rounded-full border border-amber-400/30">
+									ACTUAL
+								</span>
+							)}
+						</div>
+						<p class="text-amber-400/80 font-mono text-sm mb-3">{job.company} · {job.period}</p>
+						<ul class="space-y-2">
+							{job.tasks.map((task) => (
+								<li class="text-slate-400 text-sm leading-relaxed flex gap-2">
+									<span class="text-amber-400/60 mt-1 shrink-0">▸</span>
+									<span>{task}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- FORMACIÓN -->
+		<section class="py-16 border-t border-neutral-800">
+			<h2 class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
+				<span class="text-amber-400">#</span> formación
+			</h2>
+			<div class="space-y-6">
+				{EDUCATION.map((edu, i) => (
+					<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 group">
+						<span class="text-sm font-mono text-amber-400/70 shrink-0 w-40">{edu.period}</span>
+						<div class="flex-1 bg-neutral-900/60 border border-neutral-800 group-hover:border-amber-400/40 rounded-xl px-5 py-4 transition">
+							<h3 class="text-white font-medium text-[15px]">{edu.title}</h3>
+							<p class="text-slate-500 text-sm">{edu.center}</p>
+						</div>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- CONTACTO -->
+		<section id="contacto" class="py-20 border-t border-neutral-800 text-center">
+			<h2 class="text-3xl font-bold mb-4 text-white">¿Trabajamos juntos?</h2>
+			<p class="text-slate-400 max-w-lg mx-auto mb-4">
+				Estoy disponible para nuevas oportunidades. Puedes escribirme directamente al correo o contactarme por LinkedIn.
+			</p>
+			<p class="text-slate-500 text-sm font-mono mb-8">Barcelona · Disponible para incorporación inmediata</p>
+			
+			<div class="flex flex-col sm:flex-row gap-4 justify-center">
+				<a href="mailto:frankvillarredondo@gmail.com" 
+				   class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-mono font-semibold rounded-2xl transition-all shadow-lg shadow-amber-500/25 hover:shadow-amber-400/40">
+					<span>enviar_email()</span>
+				</a>
+				<a href="https://linkedin.com/in/TU_USUARIO" target="_blank"
+				   class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-neutral-900 border border-neutral-700 hover:border-amber-400 text-slate-300 font-mono rounded-2xl transition group">
+					<span>linkedin()</span>
+					<span class="group-hover:translate-x-1 transition">→</span>
+				</a>
+			</div>
+		</section>
+	</main>
+
+	<footer class="border-t border-neutral-800 py-10 text-center text-xs font-mono text-neutral-500">
+		<p>Frank Villar · Hecho con Astro & Tailwind · {new Date().getFullYear()}</p>
+	</footer>
 </Layout>
+
+<script>
+	const btn = document.getElementById('menu-btn');
+	const menu = document.getElementById('mobile-menu');
+	btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+	
+	// Cerrar menú al hacer click en un enlace
+	menu?.querySelectorAll('a').forEach(link => {
+		link.addEventListener('click', () => menu?.classList.add('hidden'));
+	});
+</script>
