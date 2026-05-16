@@ -1,4 +1,5 @@
 ---
+import '../../styles/global.css' 
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 
@@ -20,63 +21,84 @@ const when = fmt(date);
 
 <Layout title={`${title} | Frank Villar`}>
   <main class="max-w-4xl mx-auto px-6 pt-28 pb-20">
-    <a href="/#proyectos" class="text-sm font-mono text-slate-400 hover:text-amber-400 transition">
-      ← volver_a_proyectos
+    <a href="/#proyectos" class="group text-sm font-mono text-slate-400 hover:text-amber-400 transition flex items-center gap-2">
+      <span class="group-hover:-translate-x-1 transition-transform">←</span> volver_a_proyectos
     </a>
 
-    <header class="mt-8">
-      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white">
-        {title}
-      </h1>
-      <p class="mt-4 text-slate-400 text-lg leading-relaxed max-w-2xl">
-        {description}
-      </p>
+    <header class="mt-8 flex flex-col md:flex-row gap-8 items-start justify-between">
+      <div class="flex-1">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+          {title}
+        </h1>
+        <p class="mt-4 text-slate-400 text-lg leading-relaxed max-w-2xl font-light">
+          {description}
+        </p>
 
-      <div class="mt-6 flex flex-wrap gap-3 text-sm font-mono text-slate-400">
-        {company && <span class="px-3 py-1 rounded-lg border border-neutral-800 bg-neutral-900">{company}</span>}
-        {role && <span class="px-3 py-1 rounded-lg border border-neutral-800 bg-neutral-900">{role}</span>}
-        {when && <span class="px-3 py-1 rounded-lg border border-neutral-800 bg-neutral-900">{when}</span>}
+        <div class="mt-6 flex flex-wrap gap-3 text-sm font-mono text-slate-300">
+          {company && <span class="px-3 py-1.5 rounded-xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm shadow-sm">{company}</span>}
+          {role && <span class="px-3 py-1.5 rounded-xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm shadow-sm">{role}</span>}
+          {when && <span class="px-3 py-1.5 rounded-xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm shadow-sm uppercase tracking-wider">{when}</span>}
+        </div>
       </div>
 
-      {tech?.length ? (
-        <div class="mt-6 flex flex-wrap gap-2">
-          {tech.map((t) => (
-            <span class="text-xs font-mono px-3 py-1.5 bg-neutral-950 text-amber-400/90 rounded-lg border border-neutral-700">
-              {t}
-            </span>
-          ))}
+      <!-- Profile Photo Placeholder -->
+      <div class="relative group">
+        <div class="absolute -inset-1 bg-gradient-to-tr from-amber-500 to-yellow-200 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+        <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl border border-neutral-800 bg-neutral-900 overflow-hidden flex items-center justify-center group-hover:border-amber-500/50 transition-colors">
+          <!-- Placeholder content -->
+          <div class="flex flex-col items-center gap-2 text-slate-500 group-hover:text-amber-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="text-[10px] font-mono uppercase tracking-widest">tu_foto</span>
+          </div>
         </div>
-      ) : null}
-
-      {links && (links.demo || links.github) ? (
-        <div class="mt-8 flex flex-wrap gap-4 font-mono text-sm">
-          {links.demo && (
-            <a
-              href={links.demo}
-              target="_blank"
-              class="px-6 py-3 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-semibold rounded-xl transition-all shadow-lg shadow-amber-500/25"
-            >
-              ver_demo →
-            </a>
-          )}
-          {links.github && (
-            <a
-              href={links.github}
-              target="_blank"
-              class="px-6 py-3 border border-neutral-700 hover:border-amber-400 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-xl transition"
-            >
-              ver_codigo →
-            </a>
-          )}
-        </div>
-      ) : null}
+      </div>
     </header>
 
-    <article class="prose prose-invert prose-neutral max-w-none mt-12
-      prose-headings:font-semibold prose-headings:text-white
-      prose-a:text-amber-300 hover:prose-a:text-amber-200
-      prose-strong:text-slate-100
-      prose-code:text-amber-300 prose-code:bg-neutral-900 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+    {tech?.length ? (
+      <div class="mt-10 flex flex-wrap gap-2.5">
+        {tech.map((t) => (
+          <span class="text-[11px] font-mono px-3 py-1.5 bg-neutral-950 text-amber-400/80 rounded-lg border border-amber-900/30 hover:border-amber-400/50 transition-colors cursor-default">
+            {t}
+          </span>
+        ))}
+      </div>
+    ) : null}
+
+    {links && (links.demo || links.github) ? (
+      <div class="mt-10 flex flex-wrap gap-4 font-mono text-sm">
+        {links.demo && (
+          <a
+            href={links.demo}
+            target="_blank"
+            class="px-8 py-3.5 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-bold rounded-xl transition-all shadow-xl shadow-amber-500/20 active:scale-95"
+          >
+            ver_demo →
+          </a>
+        )}
+        {links.github && (
+          <a
+            href={links.github}
+            target="_blank"
+            class="px-8 py-3.5 border border-neutral-800 hover:border-amber-400/50 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-xl transition shadow-lg active:scale-95"
+          >
+            ver_codigo →
+          </a>
+        )}
+      </div>
+    ) : null}
+
+    <div class="w-full h-px bg-gradient-to-r from-transparent via-neutral-800 to-transparent mt-16"></div>
+
+    <article class="prose prose-invert prose-neutral max-w-none mt-16
+      prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white
+      prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6
+      prose-p:text-slate-400 prose-p:leading-relaxed
+      prose-li:text-slate-400
+      prose-strong:text-slate-100 prose-strong:font-semibold
+      prose-a:text-amber-400 prose-a:no-underline hover:prose-a:text-amber-300 transition-colors
+      prose-code:text-amber-200 prose-code:bg-neutral-900/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-neutral-800
       prose-hr:border-neutral-800">
       <Content />
     </article>
