@@ -1,2 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/typography";
+
+/* Configuración de fuentes y variables en Tailwind CSS v4 */
+@theme {
+  --font-sans: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "Fira Code", "JetBrains Mono", monospace;
+}

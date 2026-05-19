@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  project: CollectionEntry<"projects">;
+};
+
+const { project } = Astro.props;
+const { title, description, tech, cover, company, role } = project.data;
+const href = `/projects/${project.id}`;
+
+// Generamos un gradiente único basado en el título si no hay cover
+const fallbackGradients = [
+  "from-amber-500/10 via-neutral-900 to-neutral-950",
+  "from-yellow-600/10 via-neutral-900 to-neutral-950",
+  "from-orange-500/10 via-neutral-900 to-neutral-950",
+];
+const gradientIndex = title.length % fallbackGradients.length;
+const selectedGradient = fallbackGradients[gradientIndex];
+---
+
+<div
+  class="group bg-neutral-900/60 border border-neutral-800 hover:border-amber-400/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-amber-500/5"
+>
+  {/* Imagen o Placeholder */}
+  <a href={href} class="block relative aspect-video overflow-hidden border-b border-neutral-800/80">
+    {cover ? (
+      <div class="w-full h-full relative">
+        <img
+          src={cover}
+          alt={`Portada de ${title}`}
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        {/* Fallback en caso de que la imagen física falle al cargar en el cliente */}
+        <div class={`absolute inset-0 hidden flex-col items-center justify-center bg-gradient-to-br ${selectedGradient} p-6`}>
+          <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+          <span class="font-mono text-5xl font-extrabold text-amber-400/20 select-none tracking-widest">{title.slice(0, 2).toUpperCase()}</span>
+        </div>
+      </div>
+    ) : (
+      <div class={`w-full h-full flex flex-col items-center justify-center bg-gradient-to-br ${selectedGradient} p-6 relative`}>
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <span class="font-mono text-5xl font-extrabold text-amber-400/20 select-none tracking-widest">{title.slice(0, 2).toUpperCase()}</span>
+      </div>
+    )}
+
+    {/* Overlay de luz ámbar al pasar el mouse */}
+    <div class="absolute inset-0 bg-amber-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+
+    {/* Etiqueta flotante */}
+    {company && (
+      <span class="absolute top-4 left-4 z-10 px-2.5 py-1 text-[10px] font-mono font-semibold tracking-wider uppercase bg-neutral-950/80 text-amber-400 rounded-lg border border-amber-400/20 backdrop-blur-sm">
+        {company}
+      </span>
+    )}
+  </a>
+
+  {/* Contenido */}
+  <div class="p-6 flex flex-col flex-1">
+    <div class="mb-4">
+      {role && <span class="text-xs font-mono text-amber-400/80 block mb-1">{role}</span>}
+      <a href={href}>
+        <h3 class="text-xl font-bold text-white group-hover:text-amber-300 transition duration-300 leading-tight">
+          {title}
+        </h3>
+      </a>
+      <p class="text-slate-400 text-sm mt-3 leading-relaxed line-clamp-2">
+        {description}
+      </p>
+    </div>
+
+    {/* Tech stack */}
+    <div class="mt-auto pt-4 border-t border-neutral-800/80 flex flex-col gap-4">
+      <div class="flex flex-wrap gap-1.5">
+        {tech?.map((t) => (
+          <span class="text-[11px] font-mono px-2.5 py-1 bg-neutral-950/60 text-slate-300 rounded-md border border-neutral-800 group-hover:border-neutral-700/50 transition">
+            {t}
+          </span>
+        ))}
+      </div>
+
+      <div class="flex justify-between items-center text-sm font-mono pt-1">
+        <a href={href} class="text-slate-400 group-hover:text-amber-400 transition-colors flex items-center gap-1">
+          <span>ver_detalles()</span>
+          <span class="group-hover:translate-x-0.5 transition-transform">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

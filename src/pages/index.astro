@@ -6,9 +6,10 @@ import { getCollection } from "astro:content";
 import ProjectCard from "../components/ProjectCard.astro";
 
 const projects = await getCollection("projects");
+const featuredProjects = projects.filter((p) => p.data.destacado === true || p.data.featured === true);
 
 // opcional: ordenar por date desc si existe
-projects.sort((a, b) => {
+featuredProjects.sort((a, b) => {
   const ad = a.data.date ? a.data.date.getTime() : 0;
   const bd = b.data.date ? b.data.date.getTime() : 0;
   return bd - ad;
@@ -115,7 +116,7 @@ const EDUCATION = [
 					⚡ Disponible para incorporación inmediata
 				</div>
 				<h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] text-white">
-					Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent">Frank Villar Redondo</span>
+					Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent">Frank</span>
 				</h1>
 				<p class="text-xl md:text-2xl text-slate-300 font-medium mb-4">
 					Software Developer · Automation & Backend
@@ -213,11 +214,18 @@ const EDUCATION = [
 
 		<section id="proyectos" class="py-16 border-t border-neutral-800">
 			<h2 class="text-2xl font-bold mb-8 flex items-center gap-2 font-mono text-slate-200">
-				<span class="text-amber-400">#</span> proyectos
+				<span class="text-amber-400">#</span> proyectos_destacados
 			</h2>
 
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-				{projects.map((p) => <ProjectCard project={p} />)}
+				{featuredProjects.map((p) => <ProjectCard project={p} />)}
+			</div>
+
+			<div class="mt-10 text-center">
+				<a href="/projects" class="inline-flex items-center gap-2 font-mono text-sm text-slate-400 hover:text-amber-400 transition group border border-neutral-800 hover:border-amber-400/40 bg-neutral-900/40 rounded-xl px-5 py-3">
+					<span>ver_todos_los_proyectos</span>
+					<span class="group-hover:translate-x-1 transition">→</span>
+				</a>
 			</div>
 		</section>
 
