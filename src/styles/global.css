@@ -126,11 +126,11 @@
 }
 
 [data-animate].is-visible {
-  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 [data-animate="scale"].is-visible {
-  animation: scale-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 [data-animate-load] {
@@ -138,11 +138,11 @@
 }
 
 [data-animate-load].is-visible {
-  animation: fade-down 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fade-down 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 [data-animate-stagger].is-visible > * {
-  animation: fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 [data-animate-stagger].is-visible > *:nth-child(1) {

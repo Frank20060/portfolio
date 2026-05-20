@@ -40,6 +40,8 @@ const when = date
           title={title}
           class={`w-full h-full transition-transform duration-500 ${imgFit}`}
           loading="lazy"
+          widths={[400, 640]}
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
     ) : (

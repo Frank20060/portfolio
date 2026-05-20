@@ -5,6 +5,12 @@
     });
   };
 
+  const resetMotion = () => {
+    document.querySelectorAll("[data-animate], [data-animate-stagger], [data-animate-load]").forEach((el) => {
+      el.classList.remove("is-visible");
+    });
+  };
+
   const initMotion = () => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
@@ -13,7 +19,7 @@
     }
 
     document.querySelectorAll("[data-animate-load]").forEach((el) => {
-      requestAnimationFrame(() => el.classList.add("is-visible"));
+      el.classList.add("is-visible");
     });
 
     const observer = new IntersectionObserver(
@@ -24,7 +30,7 @@
           observer.unobserve(entry.target);
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+      { threshold: 0.08, rootMargin: "0px 0px -4% 0px" }
     );
 
     document.querySelectorAll("[data-animate], [data-animate-stagger]").forEach((el) => {
@@ -32,9 +38,11 @@
     });
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initMotion);
-  } else {
+  const run = () => {
+    resetMotion();
     initMotion();
-  }
+  };
+
+  run();
+  document.addEventListener("astro:page-load", run);
 </script>

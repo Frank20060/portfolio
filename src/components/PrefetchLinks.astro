@@ -1,0 +1,32 @@
+<script>
+  const prefetchPage = (href) => {
+    if (!href || href.startsWith("#") || href.includes("://")) return;
+    const url = new URL(href, window.location.origin);
+    if (url.origin !== window.location.origin) return;
+
+    const existing = document.querySelector(`link[rel="prefetch"][href="${url.pathname}"]`);
+    if (existing) return;
+
+    const link = document.createElement("link");
+    link.rel = "prefetch";
+    link.href = url.pathname;
+    document.head.appendChild(link);
+  };
+
+  const bindPrefetch = () => {
+    document.querySelectorAll('a[href^="/"]').forEach((anchor) => {
+      if (anchor.dataset.prefetchBound) return;
+      anchor.dataset.prefetchBound = "true";
+
+      anchor.addEventListener("mouseenter", () => prefetchPage(anchor.getAttribute("href")), {
+        passive: true,
+      });
+      anchor.addEventListener("focus", () => prefetchPage(anchor.getAttribute("href")), {
+        passive: true,
+      });
+    });
+  };
+
+  bindPrefetch();
+  document.addEventListener("astro:page-load", bindPrefetch);
+</script>
