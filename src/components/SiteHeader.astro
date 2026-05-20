@@ -133,9 +133,14 @@ const backBtnClass =
     })
   }
 
+  const NAV_SECTION_IDS = ["skills", "proyectos", "experiencia", "contacto"]
+  const HEADER_OFFSET = 96
+  const BOTTOM_THRESHOLD = 140
+  const TOP_BUFFER = 48
+
   const setActiveNav = (sectionId) => {
     document.querySelectorAll("[data-nav-section]").forEach((link) => {
-      const active = link.getAttribute("data-nav-section") === sectionId
+      const active = Boolean(sectionId) && link.getAttribute("data-nav-section") === sectionId
       link.classList.toggle("text-amber-400", active)
       link.classList.toggle("text-slate-400", !active)
       if (active) link.setAttribute("aria-current", "true")
@@ -143,29 +148,114 @@ const backBtnClass =
     })
   }
 
+  const pickActiveSection = (sections) => {
+    if (!sections.length) return null
+
+    const scrollY = window.scrollY
+    const viewportBottom = scrollY + window.innerHeight
+    const pageBottom = document.documentElement.scrollHeight
+
+    if (pageBottom - viewportBottom <= BOTTOM_THRESHOLD) {
+      return "contacto"
+    }
+
+    const contacto = document.getElementById("contacto")
+    if (contacto) {
+      const { top, bottom } = contacto.getBoundingClientRect()
+      const inView = top < window.innerHeight * 0.6 && bottom > HEADER_OFFSET + 24
+      if (inView) return "contacto"
+    }
+
+    const firstSection = sections[0]
+    if (scrollY < firstSection.offsetTop - HEADER_OFFSET - TOP_BUFFER) {
+      return null
+    }
+
+    const marker = scrollY + HEADER_OFFSET
+    let current = null
+    for (const section of sections) {
+      if (section.offsetTop <= marker) current = section.id
+    }
+    return current
+  }
+
   const initNavSpy = () => {
     const nav = document.querySelector('[data-nav-variant="home"]')
     if (!nav) return
 
-    const sectionIds = ["skills", "proyectos", "experiencia", "contacto"]
-    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean)
+    const sections = NAV_SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean)
     if (!sections.length) return
 
-    const pickSection = () => {
-      const offset = 96
-      let current = sectionIds[0]
-      for (const section of sections) {
-        if (section.getBoundingClientRect().top <= offset) current = section.id
-      }
-      return current
+    let navSpyPaused = false
+    let pauseCleanup = null
+
+    const update = () => {
+      if (navSpyPaused) return
+      setActiveNav(pickActiveSection(sections))
     }
 
-    const update = () => setActiveNav(pickSection())
-    update()
+    const resumeNavSpy = () => {
+      if (pauseCleanup) {
+        pauseCleanup()
+        pauseCleanup = null
+      }
+      navSpyPaused = false
+      update()
+    }
+
+    const pauseNavSpyForScroll = (sectionId) => {
+      if (pauseCleanup) pauseCleanup()
+      navSpyPaused = true
+      setActiveNav(sectionId)
+
+      let scrollSettleTimer
+      let maxTimer
+
+      const cleanup = () => {
+        window.removeEventListener("scroll", onScrollWhilePaused)
+        window.removeEventListener("scrollend", onScrollEnd)
+        clearTimeout(scrollSettleTimer)
+        clearTimeout(maxTimer)
+        pauseCleanup = null
+      }
+
+      const onScrollEnd = () => {
+        cleanup()
+        resumeNavSpy()
+      }
+
+      const onScrollWhilePaused = () => {
+        clearTimeout(scrollSettleTimer)
+        scrollSettleTimer = setTimeout(() => {
+          cleanup()
+          resumeNavSpy()
+        }, 140)
+      }
+
+      window.addEventListener("scroll", onScrollWhilePaused, { passive: true })
+      if ("onscrollend" in window) {
+        window.addEventListener("scrollend", onScrollEnd, { once: true })
+      }
+
+      maxTimer = setTimeout(() => {
+        cleanup()
+        resumeNavSpy()
+      }, 2200)
+
+      pauseCleanup = cleanup
+      onScrollWhilePaused()
+    }
+
+    const hash = location.hash.replace("#", "")
+    if (NAV_SECTION_IDS.includes(hash)) {
+      setActiveNav(hash)
+    } else {
+      update()
+    }
 
     let ticking = false
     const onScroll = () => {
-      if (ticking) return
+      if (navSpyPaused || ticking) return
       ticking = true
       requestAnimationFrame(() => {
         update()
@@ -174,10 +264,15 @@ const backBtnClass =
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
-    nav.querySelectorAll("[data-nav-section]").forEach((link) => {
+    window.addEventListener("hashchange", () => {
+      if (!navSpyPaused) update()
+    })
+
+    const header = nav.closest("header")
+    header?.querySelectorAll("[data-nav-section]").forEach((link) => {
       link.addEventListener("click", () => {
         const id = link.getAttribute("data-nav-section")
-        if (id) setActiveNav(id)
+        if (id) pauseNavSpyForScroll(id)
       })
     })
   }
