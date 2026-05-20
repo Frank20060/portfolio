@@ -196,31 +196,54 @@ const EDUCATION = [
 			<h2 data-animate class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
 				<span class="text-amber-400">#</span> experiencia_laboral
 			</h2>
-			<div data-animate-stagger class="space-y-8">
-				{EXPERIENCE.map((job, i) => (
-					<div class={`relative pl-8 border-l-2 ${i === 0 ? 'border-amber-400' : 'border-neutral-700'}`}>
-						<!-- Dot -->
-						<div class={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 ${i === 0 ? 'border-amber-400 bg-amber-400/30 animate-pulse-soft' : 'border-neutral-600 bg-neutral-800'}`}></div>
-						
-						<div class="mb-1 flex flex-wrap items-center gap-3">
-							<h3 class="text-lg font-semibold text-white">{job.role}</h3>
-							{i === 0 && (
-								<span class="text-[10px] font-mono px-2 py-0.5 bg-amber-400/15 text-amber-400 rounded-full border border-amber-400/30">
-									ACTUAL
-								</span>
-							)}
-						</div>
-						<p class="text-amber-400/80 font-mono text-sm mb-3">{job.company} · {job.period}</p>
-						<ul class="space-y-2">
-							{job.tasks.map((task) => (
-								<li class="text-slate-400 text-sm leading-relaxed flex gap-2">
-									<span class="text-amber-400/60 mt-1 shrink-0">▸</span>
-									<span>{task}</span>
-								</li>
-							))}
-						</ul>
-					</div>
-				))}
+			<div data-animate-stagger class="relative">
+				<div
+					class="pointer-events-none absolute left-[8px] top-2 bottom-2 w-px rounded-full bg-gradient-to-b from-amber-400 via-amber-500/30 to-neutral-700"
+					aria-hidden="true"
+				></div>
+
+				<div class="space-y-10">
+					{EXPERIENCE.map((job, i) => {
+						const isCurrent = i === 0
+						return (
+							<article class="group relative pl-10">
+								<div class="absolute left-0 top-1.5 flex h-[18px] w-[18px] items-center justify-center" aria-hidden="true">
+									{isCurrent ? (
+										<span class="relative flex h-[18px] w-[18px] items-center justify-center">
+											<span class="absolute inset-0 rounded-full bg-amber-400/25 blur-[2px] animate-pulse-soft"></span>
+											<span class="absolute inset-0 rounded-full border border-amber-400/40 scale-125"></span>
+											<span class="relative h-3.5 w-3.5 rounded-full border-2 border-amber-300 bg-neutral-950 shadow-[0_0_12px_rgba(251,191,36,0.55)]">
+												<span class="absolute inset-[3px] rounded-full bg-amber-400"></span>
+											</span>
+										</span>
+									) : (
+										<span class="relative flex h-[18px] w-[18px] items-center justify-center">
+											<span class="h-2.5 w-2.5 rounded-full border-2 border-neutral-600 bg-neutral-900 transition-colors duration-300 group-hover:border-amber-400/60 group-hover:bg-amber-400/10"></span>
+										</span>
+									)}
+								</div>
+
+								<div class="mb-1 flex flex-wrap items-center gap-3">
+									<h3 class="text-lg font-semibold text-white">{job.role}</h3>
+									{isCurrent && (
+										<span class="text-[10px] font-mono px-2 py-0.5 bg-amber-400/15 text-amber-400 rounded-full border border-amber-400/30">
+											ACTUAL
+										</span>
+									)}
+								</div>
+								<p class="text-amber-400/80 font-mono text-sm mb-3">{job.company} · {job.period}</p>
+								<ul class="space-y-2">
+									{job.tasks.map((task) => (
+										<li class="text-slate-400 text-sm leading-relaxed flex gap-2">
+											<span class="text-amber-400/60 mt-1 shrink-0">▸</span>
+											<span>{task}</span>
+										</li>
+									))}
+								</ul>
+							</article>
+						)
+					})}
+				</div>
 			</div>
 		</section>
 
