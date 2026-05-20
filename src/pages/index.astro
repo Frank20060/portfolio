@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 
 import { getCollection } from "astro:content";
 import ProjectCard from "../components/ProjectCard.astro";
+import Image from 'astro/components/Image.astro';
 
 const projects = await getCollection("projects");
 
@@ -51,6 +52,9 @@ const EXPERIENCE = [
     ]
   }
 ];
+
+const EMAIL = "frankvillarredondo@gmail.com";
+const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=${encodeURIComponent("Contacto desde portfolio")}`;
 
 const EDUCATION = [
   {
@@ -115,7 +119,7 @@ const EDUCATION = [
 					⚡ Disponible para incorporación inmediata
 				</div>
 				<h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] text-white">
-					Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent">Frank Villar Redondo</span>
+					Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent">Frank</span>
 				</h1>
 				<p class="text-xl md:text-2xl text-slate-300 font-medium mb-4">
 					Software Developer · Automation & Backend
@@ -130,7 +134,7 @@ const EDUCATION = [
 					   class="px-8 py-4 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-bold rounded-2xl transition-all shadow-xl shadow-amber-500/20 active:scale-95">
 						Contactar
 					</a>
-					<a href="https://github.com/TU_USUARIO" target="_blank" 
+					<a href="https://github.com/Frank20060" target="_blank" rel="noopener noreferrer"
 					   class="px-6 py-4 border border-neutral-800 hover:border-amber-400/50 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-2xl transition flex items-center gap-2 active:scale-95">
 						GitHub →
 					</a>
@@ -281,11 +285,16 @@ const EDUCATION = [
 			<p class="text-slate-500 text-sm font-mono mb-8">Barcelona · Disponible para incorporación inmediata</p>
 			
 			<div class="flex flex-col sm:flex-row gap-4 justify-center">
-				<a href="mailto:frankvillarredondo@gmail.com" 
-				   class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-mono font-semibold rounded-2xl transition-all shadow-lg shadow-amber-500/25 hover:shadow-amber-400/40">
+				<a
+					href={GMAIL_COMPOSE}
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label={`Escribir a ${EMAIL} en Gmail`}
+					class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-mono font-semibold rounded-2xl transition-all shadow-lg shadow-amber-500/25 hover:shadow-amber-400/40"
+				>
 					<span>enviar_email()</span>
 				</a>
-				<a href="https://linkedin.com/in/TU_USUARIO" target="_blank"
+				<a href="https://www.linkedin.com/in/frank-villar-redondo/" target="_blank" rel="noopener noreferrer"
 				   class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-neutral-900 border border-neutral-700 hover:border-amber-400 text-slate-300 font-mono rounded-2xl transition group">
 					<span>linkedin()</span>
 					<span class="group-hover:translate-x-1 transition">→</span>
