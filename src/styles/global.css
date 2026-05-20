@@ -1,9 +1,237 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* Configuración de fuentes y variables en Tailwind CSS v4 */
 @theme {
-  --font-sans: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "Fira Code", "JetBrains Mono", monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid #fbbf24;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    [data-animate],
+    [data-animate-stagger] > *,
+    [data-animate-load] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+}
+
+.project-prose > :global(h2 + ul),
+.project-prose > :global(h2 + p) {
+  margin-bottom: 2rem;
+}
+
+.project-prose > :global(h2 + ul:last-child),
+.project-prose > :global(h2 + p:last-child) {
+  margin-bottom: 0;
+}
+
+/* —— Animaciones —— */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes glow-drift {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translate(-2%, -2%) scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translate(3%, 4%) scale(1.08);
+  }
+}
+
+@keyframes shimmer-text {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(251, 191, 36, 0);
+  }
+}
+
+@keyframes accent-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+[data-animate],
+[data-animate-stagger] > * {
+  opacity: 0;
+}
+
+[data-animate].is-visible {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+[data-animate="scale"].is-visible {
+  animation: scale-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+[data-animate-load] {
+  opacity: 0;
+}
+
+[data-animate-load].is-visible {
+  animation: fade-down 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+[data-animate-stagger].is-visible > * {
+  animation: fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+[data-animate-stagger].is-visible > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+[data-animate-stagger].is-visible > *:nth-child(2) {
+  animation-delay: 0.12s;
+}
+[data-animate-stagger].is-visible > *:nth-child(3) {
+  animation-delay: 0.19s;
+}
+[data-animate-stagger].is-visible > *:nth-child(4) {
+  animation-delay: 0.26s;
+}
+[data-animate-stagger].is-visible > *:nth-child(5) {
+  animation-delay: 0.33s;
+}
+[data-animate-stagger].is-visible > *:nth-child(6) {
+  animation-delay: 0.4s;
+}
+[data-animate-stagger].is-visible > *:nth-child(7) {
+  animation-delay: 0.47s;
+}
+[data-animate-stagger].is-visible > *:nth-child(8) {
+  animation-delay: 0.54s;
+}
+
+.animate-glow-drift {
+  animation: glow-drift 14s ease-in-out infinite;
+}
+
+.text-shimmer {
+  background-size: 200% auto;
+  animation: shimmer-text 4s linear infinite;
+}
+
+.project-accent-bar {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+[data-animate].is-visible .project-accent-bar {
+  animation: accent-line 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2.5s ease-in-out infinite;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: #fbbf24;
+  transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  width: 100%;
+}
+
+@layer utilities {
+  .motion-safe-hover-lift {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .motion-safe-hover-lift:hover {
+      transform: translateY(-0.375rem);
+    }
+
+    .group:hover .motion-safe-img-zoom {
+      transform: scale(1.05);
+    }
+
+    .motion-safe-active-scale:active {
+      transform: scale(0.98);
+    }
+
+    .skill-pill:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+  }
 }

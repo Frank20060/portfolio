@@ -5,10 +5,10 @@ date: 2025-10-01
 company: "M-Automoción"
 role: "Desarrollador Backend"
 tech: ["Python", "Django", "Django REST Framework", "PostgreSQL", "Docker"]
-links:
-  demo: "https://example.com"
-  github: "https://github.com/tuusuario/tu-repo"
 featured: true
+cover: "/covers/m-automocion.png"
+coverFit: "contain"
+coverBg: "#1a237e"
 ---
 
 ## Qué hice

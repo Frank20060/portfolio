@@ -3,8 +3,8 @@ import '../styles/global.css'
 import Layout from '../layouts/Layout.astro';
 
 import { getCollection } from "astro:content";
-import ProjectCard from "../components/ProjectCard.astro";
-import Image from 'astro/components/Image.astro';
+import ProjectCoverCard from "../components/ProjectCoverCard.astro";
+import ProfilePhoto from "../components/ProfilePhoto.astro";
 
 const projects = await getCollection("projects");
 const featuredProjects = projects.filter((p) => p.data.destacado === true || p.data.featured === true);
@@ -83,44 +83,54 @@ const EDUCATION = [
 
 <Layout title="Frank Villar | Software Developer">
 	<!-- Navbar -->
-	<header class="fixed top-0 w-full backdrop-blur-md bg-neutral-950/90 border-b border-neutral-800 z-50">
-		<nav class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-			<a href="#" class="font-mono text-xl font-bold tracking-tighter text-white hover:text-amber-400 transition">
+	<a href="#inicio" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-amber-400 focus:text-neutral-950 focus:rounded-lg focus:font-mono focus:text-sm">
+		Saltar al contenido
+	</a>
+	<header data-animate-load class="fixed top-0 w-full backdrop-blur-md bg-neutral-950/90 border-b border-neutral-800 z-50">
+		<nav aria-label="Principal" class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+			<a href="/" class="font-mono text-xl font-bold tracking-tighter text-white hover:text-amber-400 transition">
 				&lt;frank /&gt;
 			</a>
 			<div class="hidden sm:flex gap-6 text-sm font-mono text-slate-400">
-				<a href="#skills" class="hover:text-amber-400 transition">/skills</a>
-				<a href="#proyectos" class="hover:text-amber-400 transition">/proyectos</a>
-				<a href="#experiencia" class="hover:text-amber-400 transition">/experiencia</a>
-				<a href="#contacto" class="hover:text-amber-400 transition">/contacto</a>
+				<a href="#skills" class="nav-link hover:text-amber-400 transition">/skills</a>
+				<a href="#proyectos" class="nav-link hover:text-amber-400 transition">/proyectos</a>
+				<a href="#experiencia" class="nav-link hover:text-amber-400 transition">/experiencia</a>
+				<a href="#contacto" class="nav-link hover:text-amber-400 transition">/contacto</a>
 			</div>
 			<!-- Mobile menu button -->
-			<button id="menu-btn" class="sm:hidden text-slate-400 hover:text-amber-400 transition">
+			<button
+				id="menu-btn"
+				type="button"
+				class="sm:hidden text-slate-400 hover:text-amber-400 transition"
+				aria-label="Abrir menú de navegación"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+			>
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
 				</svg>
 			</button>
 		</nav>
 		<!-- Mobile menu -->
-		<div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md">
+		<div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md" hidden>
 			<div class="flex flex-col gap-4 px-6 py-5 text-sm font-mono text-slate-400">
-				<a href="#skills" class="hover:text-amber-400 transition">/skills</a>
-				<a href="#proyectos" class="hover:text-amber-400 transition">/proyectos</a>
-				<a href="#experiencia" class="hover:text-amber-400 transition">/experiencia</a>
-				<a href="#contacto" class="hover:text-amber-400 transition">/contacto</a>
+				<a href="#skills" class="nav-link hover:text-amber-400 transition">/skills</a>
+				<a href="#proyectos" class="nav-link hover:text-amber-400 transition">/proyectos</a>
+				<a href="#experiencia" class="nav-link hover:text-amber-400 transition">/experiencia</a>
+				<a href="#contacto" class="nav-link hover:text-amber-400 transition">/contacto</a>
 			</div>
 		</div>
 	</header>
 
 	<main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
 		<!-- HERO -->
-		<section class="py-12 md:py-24 flex flex-col md:flex-row items-center md:items-start gap-12">
-			<div class="flex-1">
-				<div class="inline-block px-3 py-1 mb-6 border border-amber-400/30 rounded-full bg-amber-400/10 text-amber-400 text-xs font-mono">
-					⚡ Disponible para incorporación inmediata
+		<section id="inicio" class="py-12 md:py-24 flex flex-col md:flex-row items-center md:items-start gap-12">
+			<div data-animate-stagger class="flex-1 flex flex-col">
+				<div class="inline-block w-fit px-3 py-1 mb-6 border border-amber-400/30 rounded-full bg-amber-400/10 text-amber-400 text-xs font-mono">
+					<span aria-hidden="true">⚡</span> Disponible para incorporación inmediata
 				</div>
 				<h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] text-white">
-					Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent">Frank</span>
+					Hola, soy <span class="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent text-shimmer">Frank</span>
 				</h1>
 				<p class="text-xl md:text-2xl text-slate-300 font-medium mb-4">
 					Software Developer · Automation & Backend
@@ -132,46 +142,34 @@ const EDUCATION = [
 				</p>
 				<div class="flex flex-wrap gap-4 font-mono text-sm">
 					<a href="#contacto" 
-					   class="px-8 py-4 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-bold rounded-2xl transition-all shadow-xl shadow-amber-500/20 active:scale-95">
+					   class="px-8 py-4 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-bold rounded-2xl transition-all shadow-xl shadow-amber-500/20 motion-safe-active-scale">
 						Contactar
 					</a>
 					<a href="https://github.com/Frank20060" target="_blank" rel="noopener noreferrer"
-					   class="px-6 py-4 border border-neutral-800 hover:border-amber-400/50 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-2xl transition flex items-center gap-2 active:scale-95">
+					   class="px-6 py-4 border border-neutral-800 hover:border-amber-400/50 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-2xl transition flex items-center gap-2 motion-safe-active-scale">
 						GitHub →
 					</a>
 				</div>
 			</div>
 
-			<!-- Profile Photo Placeholder -->
-			<div class="relative group shrink-0">
-				<div class="absolute -inset-1 bg-gradient-to-tr from-amber-500 to-yellow-200 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-				<div class="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl border border-neutral-800 bg-neutral-900 overflow-hidden flex items-center justify-center group-hover:border-amber-500/50 transition-colors shadow-2xl">
-					<!-- Placeholder content -->
-					<!-- <div class="flex flex-col items-center gap-3 text-slate-500 group-hover:text-amber-400 transition-colors">
-						<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
-							<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-						</svg>
-						<span class="text-xs font-mono uppercase tracking-[0.2em] opacity-50 group-hover:opacity-100 transition-opacity">tu_foto</span>
-					</div> -->
-					
-					<img src="/frank-villar.png" alt="Frank Villar" class="w-full h-full object-cover" />
-				</div>
+			<div data-animate="scale" class="shrink-0">
+				<ProfilePhoto />
 			</div>
 		</section>
 
 		<!-- SKILLS / TECH STACK -->
-		<section id="skills" class="py-16 border-t border-neutral-800">
+		<section id="skills" data-animate class="py-16 border-t border-neutral-800">
 			<h2 class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
 				<span class="text-amber-400">#</span> stack_tecnológico
 			</h2>
 
-			<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+			<div data-animate-stagger class="grid grid-cols-1 sm:grid-cols-2 gap-8">
 				<!-- Lenguajes -->
 				<div>
 					<h3 class="text-sm font-mono text-amber-400 mb-4 uppercase tracking-wider">Lenguajes</h3>
 					<div class="flex flex-wrap gap-2">
 						{SKILLS.lenguajes.map((s) => (
-							<span class="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
+							<span class="skill-pill px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
 								{s}
 							</span>
 						))}
@@ -183,7 +181,7 @@ const EDUCATION = [
 					<h3 class="text-sm font-mono text-amber-400 mb-4 uppercase tracking-wider">Frameworks</h3>
 					<div class="flex flex-wrap gap-2">
 						{SKILLS.frameworks.map((s) => (
-							<span class="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
+							<span class="skill-pill px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
 								{s}
 							</span>
 						))}
@@ -195,7 +193,7 @@ const EDUCATION = [
 					<h3 class="text-sm font-mono text-amber-400 mb-4 uppercase tracking-wider">Bases de datos</h3>
 					<div class="flex flex-wrap gap-2">
 						{SKILLS.databases.map((s) => (
-							<span class="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
+							<span class="skill-pill px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
 								{s}
 							</span>
 						))}
@@ -207,7 +205,7 @@ const EDUCATION = [
 					<h3 class="text-sm font-mono text-amber-400 mb-4 uppercase tracking-wider">Herramientas</h3>
 					<div class="flex flex-wrap gap-2">
 						{SKILLS.tools.map((s) => (
-							<span class="px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
+							<span class="skill-pill px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-xl text-slate-300 font-mono text-sm hover:border-amber-400 hover:text-amber-300 transition cursor-default">
 								{s}
 							</span>
 						))}
@@ -217,16 +215,16 @@ const EDUCATION = [
 		</section>
 
 		<section id="proyectos" class="py-16 border-t border-neutral-800">
-			<h2 class="text-2xl font-bold mb-8 flex items-center gap-2 font-mono text-slate-200">
+			<h2 data-animate class="text-2xl font-bold mb-8 flex items-center gap-2 font-mono text-slate-200">
 				<span class="text-amber-400">#</span> proyectos_destacados
 			</h2>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-				{featuredProjects.map((p) => <ProjectCard project={p} />)}
+			<div data-animate-stagger class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				{featuredProjects.map((p) => <ProjectCoverCard project={p} />)}
 			</div>
 
-			<div class="mt-10 text-center">
-				<a href="/projects" class="inline-flex items-center gap-2 font-mono text-sm text-slate-400 hover:text-amber-400 transition group border border-neutral-800 hover:border-amber-400/40 bg-neutral-900/40 rounded-xl px-5 py-3">
+			<div data-animate class="mt-10 text-center">
+				<a href="/projects" class="inline-flex items-center gap-2 font-mono text-sm text-slate-400 hover:text-amber-400 transition group border border-neutral-800 hover:border-amber-400/40 bg-neutral-900/40 rounded-xl px-5 py-3 motion-safe-hover-lift">
 					<span>ver_todos_los_proyectos</span>
 					<span class="group-hover:translate-x-1 transition">→</span>
 				</a>
@@ -235,14 +233,14 @@ const EDUCATION = [
 
 		<!-- EXPERIENCIA LABORAL -->
 		<section id="experiencia" class="py-16 border-t border-neutral-800">
-			<h2 class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
+			<h2 data-animate class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
 				<span class="text-amber-400">#</span> experiencia_laboral
 			</h2>
-			<div class="space-y-8">
+			<div data-animate-stagger class="space-y-8">
 				{EXPERIENCE.map((job, i) => (
 					<div class={`relative pl-8 border-l-2 ${i === 0 ? 'border-amber-400' : 'border-neutral-700'}`}>
 						<!-- Dot -->
-						<div class={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 ${i === 0 ? 'border-amber-400 bg-amber-400/30' : 'border-neutral-600 bg-neutral-800'}`}></div>
+						<div class={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 ${i === 0 ? 'border-amber-400 bg-amber-400/30 animate-pulse-soft' : 'border-neutral-600 bg-neutral-800'}`}></div>
 						
 						<div class="mb-1 flex flex-wrap items-center gap-3">
 							<h3 class="text-lg font-semibold text-white">{job.role}</h3>
@@ -268,14 +266,14 @@ const EDUCATION = [
 
 		<!-- FORMACIÓN -->
 		<section class="py-16 border-t border-neutral-800">
-			<h2 class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
+			<h2 data-animate class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
 				<span class="text-amber-400">#</span> formación
 			</h2>
-			<div class="space-y-6">
+			<div data-animate-stagger class="space-y-6">
 				{EDUCATION.map((edu, i) => (
 					<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 group">
 						<span class="text-sm font-mono text-amber-400/70 shrink-0 w-40">{edu.period}</span>
-						<div class="flex-1 bg-neutral-900/60 border border-neutral-800 group-hover:border-amber-400/40 rounded-xl px-5 py-4 transition">
+						<div class="flex-1 bg-neutral-900/60 border border-neutral-800 group-hover:border-amber-400/40 rounded-xl px-5 py-4 transition motion-safe-hover-lift">
 							<h3 class="text-white font-medium text-[15px]">{edu.title}</h3>
 							<p class="text-slate-500 text-sm">{edu.center}</p>
 						</div>
@@ -286,13 +284,13 @@ const EDUCATION = [
 
 		<!-- CONTACTO -->
 		<section id="contacto" class="py-20 border-t border-neutral-800 text-center">
-			<h2 class="text-3xl font-bold mb-4 text-white">¿Trabajamos juntos?</h2>
+			<h2 data-animate class="text-3xl font-bold mb-4 text-white">¿Trabajamos juntos?</h2>
 			<p class="text-slate-400 max-w-lg mx-auto mb-4">
-				Estoy disponible para nuevas oportunidades. Puedes escribirme directamente al correo o contactarme por LinkedIn.
+				Estoy disponible para nuevas oportunidades. El botón de correo abre Gmail con un mensaje listo; también puedes contactarme por LinkedIn.
 			</p>
 			<p class="text-slate-500 text-sm font-mono mb-8">Barcelona · Disponible para incorporación inmediata</p>
 			
-			<div class="flex flex-col sm:flex-row gap-4 justify-center">
+			<div data-animate-stagger class="flex flex-col sm:flex-row gap-4 justify-center">
 				<a
 					href={GMAIL_COMPOSE}
 					target="_blank"
@@ -319,10 +317,28 @@ const EDUCATION = [
 <script>
 	const btn = document.getElementById('menu-btn');
 	const menu = document.getElementById('mobile-menu');
-	btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
-	
-	// Cerrar menú al hacer click en un enlace
-	menu?.querySelectorAll('a').forEach(link => {
-		link.addEventListener('click', () => menu?.classList.add('hidden'));
+
+	const setMenuOpen = (open) => {
+		if (!btn || !menu) return;
+		btn.setAttribute('aria-expanded', String(open));
+		btn.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+		menu.classList.toggle('hidden', !open);
+		menu.hidden = !open;
+	};
+
+	btn?.addEventListener('click', () => {
+		const isOpen = btn.getAttribute('aria-expanded') === 'true';
+		setMenuOpen(!isOpen);
+	});
+
+	menu?.querySelectorAll('a').forEach((link) => {
+		link.addEventListener('click', () => setMenuOpen(false));
+	});
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') {
+			setMenuOpen(false);
+			btn.focus();
+		}
 	});
 </script>

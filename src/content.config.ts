@@ -19,6 +19,8 @@ const projects = defineCollection({
     featured: z.boolean().default(false),
     destacado: z.boolean().optional(),
     cover: z.string().optional(),
+    coverFit: z.enum(["cover", "contain"]).optional(),
+    coverBg: z.string().optional(),
   }),
 });
 

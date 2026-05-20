@@ -9,6 +9,7 @@ links:
   demo: "https://vinoteca-demo.vercel.app"
   github: "https://github.com/Frank20060/vinoteca-web"
 featured: true
+cover: "/covers/vinoteca.svg"
 ---
 
 ## Contexto

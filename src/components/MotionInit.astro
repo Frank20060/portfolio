@@ -1,0 +1,40 @@
+<script>
+  const revealAll = () => {
+    document.querySelectorAll("[data-animate], [data-animate-stagger], [data-animate-load]").forEach((el) => {
+      el.classList.add("is-visible");
+    });
+  };
+
+  const initMotion = () => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      revealAll();
+      return;
+    }
+
+    document.querySelectorAll("[data-animate-load]").forEach((el) => {
+      requestAnimationFrame(() => el.classList.add("is-visible"));
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+    );
+
+    document.querySelectorAll("[data-animate], [data-animate-stagger]").forEach((el) => {
+      observer.observe(el);
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMotion);
+  } else {
+    initMotion();
+  }
+</script>

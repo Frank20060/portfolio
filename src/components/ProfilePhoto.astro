@@ -1,0 +1,41 @@
+---
+interface Props {
+  size?: "sm" | "md";
+  class?: string;
+}
+
+const { size = "md", class: className = "" } = Astro.props;
+
+const frame =
+  size === "sm"
+    ? "w-32 h-32 md:w-40 md:h-40 rounded-2xl"
+    : "w-48 h-48 md:w-64 md:h-64 rounded-3xl";
+const blurRadius = size === "sm" ? "rounded-2xl" : "rounded-3xl";
+---
+
+<div class:list={["relative group shrink-0", className]}>
+  <div
+    class:list={[
+      "absolute -inset-1 bg-gradient-to-tr from-amber-500 to-yellow-200 blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200",
+      blurRadius,
+    ]}
+  >
+  </div>
+  <div
+    class:list={[
+      "relative border border-neutral-800 bg-neutral-900 overflow-hidden flex items-center justify-center group-hover:border-amber-500/50 transition-colors shadow-2xl",
+      frame,
+    ]}
+  >
+    <img
+      src="/frank-villar.png"
+      alt="Frank Villar"
+      width="256"
+      height="256"
+      class="w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+      onerror="this.onerror=null;this.src='/frank-villar-fallback.svg';"
+    />
+  </div>
+</div>

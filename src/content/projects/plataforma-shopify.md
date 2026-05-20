@@ -9,7 +9,7 @@ links:
   demo: "https://shopify-mastery.example.com"
   github: "https://github.com/tuusuario/shopify-mastery"
 destacado: false
-cover: "/images/shopify-mastery.jpg"
+cover: "/covers/shopify.svg"
 ---
 
 ## Qué hice

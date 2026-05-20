@@ -5,6 +5,8 @@ import { getCollection } from "astro:content";
 import ProjectCoverCard from "../components/ProjectCoverCard.astro";
 
 const projects = await getCollection("projects");
+const EMAIL = "frankvillarredondo@gmail.com";
+const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=${encodeURIComponent("Contacto desde portfolio")}`;
 
 // Ordenar por fecha desc si existe
 projects.sort((a, b) => {
@@ -15,44 +17,50 @@ projects.sort((a, b) => {
 ---
 
 <Layout title="Proyectos | Frank Villar">
-	<!-- Navbar -->
-	<header class="fixed top-0 w-full backdrop-blur-md bg-neutral-950/90 border-b border-neutral-800 z-50">
-		<nav class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+	<header data-animate-load class="fixed top-0 w-full backdrop-blur-md bg-neutral-950/90 border-b border-neutral-800 z-50">
+		<nav aria-label="Principal" class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
 			<a href="/" class="font-mono text-xl font-bold tracking-tighter text-white hover:text-amber-400 transition">
 				&lt;frank /&gt;
 			</a>
 			<div class="hidden sm:flex gap-6 text-sm font-mono text-slate-400">
-				<a href="/#experiencia" class="hover:text-amber-400 transition">/experiencia</a>
-				<a href="/#skills" class="hover:text-amber-400 transition">/skills</a>
-				<a href="/#proyectos" class="text-amber-400 transition">/proyectos</a>
-				<a href="/#contacto" class="hover:text-amber-400 transition">/contacto</a>
+				<a href="#skills" class="nav-link hover:text-amber-400 transition">/skills</a>
+				<a href="#proyectos" class="nav-link hover:text-amber-400 transition">/proyectos</a>
+				<a href="#experiencia" class="nav-link hover:text-amber-400 transition">/experiencia</a>
+				<a href="#contacto" class="nav-link hover:text-amber-400 transition">/contacto</a>
 			</div>
 			<!-- Mobile menu button -->
-			<button id="menu-btn" class="sm:hidden text-slate-400 hover:text-amber-400 transition">
+			<button
+				id="menu-btn"
+				type="button"
+				class="sm:hidden text-slate-400 hover:text-amber-400 transition"
+				aria-label="Abrir menú de navegación"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+			>
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
 				</svg>
 			</button>
 		</nav>
 		<!-- Mobile menu -->
-		<div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md">
+		<div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md" hidden>
 			<div class="flex flex-col gap-4 px-6 py-5 text-sm font-mono text-slate-400">
-				<a href="/#experiencia" class="hover:text-amber-400 transition">/experiencia</a>
-				<a href="/#skills" class="hover:text-amber-400 transition">/skills</a>
-				<a href="/#proyectos" class="text-amber-400 transition">/proyectos</a>
-				<a href="/#contacto" class="hover:text-amber-400 transition">/contacto</a>
+				<a href="#skills" class="nav-link hover:text-amber-400 transition">/skills</a>
+				<a href="#proyectos" class="nav-link hover:text-amber-400 transition">/proyectos</a>
+				<a href="#experiencia" class="nav-link hover:text-amber-400 transition">/experiencia</a>
+				<a href="#contacto" class="nav-link hover:text-amber-400 transition">/contacto</a>
 			</div>
 		</div>
 	</header>
 
 	<main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
-		<div class="mb-12">
-			<a href="/" class="inline-flex items-center gap-2 text-sm font-mono text-slate-400 hover:text-amber-400 transition mb-6">
+		<div data-animate-stagger class="mb-12 flex flex-col">
+			<a href="/" class="inline-flex items-center gap-2 text-sm font-mono text-slate-400 hover:text-amber-400 transition mb-6 w-fit">
 				<span>← volver_a_inicio</span>
 			</a>
 			
 			<h1 class="text-4xl font-bold tracking-tight mb-4 leading-tight text-white">
-				Todos mis <span class="bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 bg-clip-text text-transparent">Proyectos</span>
+				Todos mis <span class="bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 bg-clip-text text-transparent text-shimmer">Proyectos</span>
 			</h1>
 			<p class="text-slate-400 text-lg max-w-2xl leading-relaxed">
 				Una lista completa de los proyectos que he desarrollado, que abarcan desde automatizaciones backend y diseño de APIs hasta interfaces de usuario completas.
@@ -61,19 +69,24 @@ projects.sort((a, b) => {
 
 		{/* Grid de Proyectos */}
 		<section class="py-6 border-t border-neutral-900">
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+			<div data-animate-stagger class="grid grid-cols-1 md:grid-cols-2 gap-8">
 				{projects.map((p) => <ProjectCoverCard project={p} />)}
 			</div>
 		</section>
 
 		<!-- Botón de Contacto (coherencia con footer/contacto de la home) -->
-		<section class="py-16 mt-16 border-t border-neutral-900 text-center">
+		<section data-animate class="py-16 mt-16 border-t border-neutral-900 text-center">
 			<h2 class="text-2xl font-bold mb-4 text-white">¿Te interesa algún proyecto?</h2>
 			<p class="text-slate-400 max-w-md mx-auto mb-8 text-sm">
 				Si quieres saber más sobre la arquitectura o implementación de alguno de ellos, no dudes en escribirme.
 			</p>
-			<a href="mailto:frankvillarredondo@gmail.com" 
-			   class="inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-mono font-semibold rounded-xl transition-all shadow-lg shadow-amber-500/25">
+			<a
+				href={GMAIL_COMPOSE}
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label={`Escribir a ${EMAIL} en Gmail`}
+				class="inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-mono font-semibold rounded-xl transition-all shadow-lg shadow-amber-500/25 motion-safe-active-scale"
+			>
 				<span>enviar_email()</span>
 			</a>
 		</section>

@@ -2,6 +2,7 @@
 import '../../styles/global.css' 
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
+import ProjectCoverMedia from "../../components/ProjectCoverMedia.astro";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -11,95 +12,152 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 
-const { title, description, tech, links, company, role, date } = project.data;
+const { title, description, tech, links, company, role, date, cover, coverFit, coverBg } = project.data;
 
 const fmt = (d?: Date) =>
   d ? new Intl.DateTimeFormat("es-ES", { year: "numeric", month: "long" }).format(d) : null;
 
 const when = fmt(date);
+const accentColor = coverBg ?? "#fbbf24";
+const panelStyle = `--project-accent: ${accentColor}`;
 ---
 
 <Layout title={`${title} | Frank Villar`}>
   <main class="max-w-4xl mx-auto px-6 pt-28 pb-20">
-    <a href="/#proyectos" class="group text-sm font-mono text-slate-400 hover:text-amber-400 transition flex items-center gap-2">
-      <span class="group-hover:-translate-x-1 transition-transform">←</span> volver_al_inicio
+    <a
+      href="/#proyectos"
+      data-animate-load
+      class="group inline-flex items-center gap-2 text-sm font-mono text-slate-400 hover:text-amber-400 transition mb-8 px-3 py-1.5 rounded-lg border border-transparent hover:border-neutral-800 hover:bg-neutral-900/50"
+    >
+      <span class="group-hover:-translate-x-0.5 transition-transform" aria-hidden="true">←</span>
+      volver_a_proyectos
     </a>
 
-    <header class="mt-8 flex flex-col md:flex-row gap-8 items-start justify-between">
-      <div class="flex-1">
-        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-          {title}
-        </h1>
-        <p class="mt-4 text-slate-400 text-lg leading-relaxed max-w-2xl font-light">
-          {description}
-        </p>
+    <div
+      data-animate
+      class="rounded-2xl border border-neutral-800/90 bg-neutral-900/95 backdrop-blur-md shadow-2xl shadow-black/40 overflow-hidden"
+      style={panelStyle}
+    >
+      <div class="project-accent-bar h-1 w-full bg-gradient-to-r from-[var(--project-accent)] via-amber-400/60 to-transparent"></div>
 
-        <div class="mt-6 flex flex-wrap gap-3 text-sm font-mono text-slate-300">
-          {company && <span class="px-3 py-1.5 rounded-xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm shadow-sm">{company}</span>}
-          {role && <span class="px-3 py-1.5 rounded-xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm shadow-sm">{role}</span>}
-          {when && <span class="px-3 py-1.5 rounded-xl border border-neutral-800 bg-neutral-900/50 backdrop-blur-sm shadow-sm uppercase tracking-wider">{when}</span>}
+      <div class="p-6 md:p-8">
+        <div class="flex flex-col md:grid md:grid-cols-[1fr_minmax(200px,240px)] md:gap-10 md:items-start">
+          <header class="flex flex-col gap-5 min-w-0 order-2 md:order-1">
+            <div class="flex gap-4 items-start justify-between md:block">
+              <div class="flex-1 min-w-0 flex flex-col gap-5">
+                {company && (
+                  <span class="inline-flex w-fit items-center gap-2 text-[11px] font-mono font-semibold uppercase tracking-widest text-amber-400/90 px-3 py-1 rounded-full border border-amber-400/25 bg-amber-400/5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400" aria-hidden="true"></span>
+                    {company}
+                  </span>
+                )}
+
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                  {title}
+                </h1>
+              </div>
+
+              {cover && (
+                <div class="md:hidden shrink-0">
+                  <ProjectCoverMedia
+                    title={title}
+                    cover={cover}
+                    coverFit={coverFit}
+                    coverBg={coverBg}
+                    layout="inline"
+                  />
+                </div>
+              )}
+            </div>
+
+            <p class="text-slate-400 text-base md:text-lg leading-relaxed border-l-2 border-neutral-700 pl-4">
+              {description}
+            </p>
+
+            <div class="flex flex-wrap gap-2 text-xs font-mono">
+              {role && (
+                <span class="px-3 py-1.5 rounded-lg bg-neutral-950 text-slate-300 border border-neutral-800">
+                  {role}
+                </span>
+              )}
+              {when && (
+                <span class="px-3 py-1.5 rounded-lg bg-neutral-950 text-slate-500 border border-neutral-800 uppercase tracking-wide">
+                  {when}
+                </span>
+              )}
+            </div>
+          </header>
+
+          {cover && (
+            <div class="order-1 md:order-2 hidden md:block">
+              <ProjectCoverMedia
+                title={title}
+                cover={cover}
+                coverFit={coverFit}
+                coverBg={coverBg}
+                layout="aside"
+              />
+            </div>
+          )}
         </div>
-      </div>
 
-      <!-- Profile Photo Placeholder -->
-      <div class="relative group">
-        <div class="absolute -inset-1 bg-gradient-to-tr from-amber-500 to-yellow-200 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-        <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl border border-neutral-800 bg-neutral-900 overflow-hidden flex items-center justify-center group-hover:border-amber-500/50 transition-colors">
-          <!-- Placeholder content -->
-          <div class="flex flex-col items-center gap-2 text-slate-500 group-hover:text-amber-400 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span class="text-[10px] font-mono uppercase tracking-widest">tu_foto</span>
+        {tech?.length ? (
+          <div class="mt-8 pt-6 border-t border-neutral-800/80">
+            <p class="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-500 mb-3">stack</p>
+            <div class="flex flex-wrap gap-2">
+              {tech.map((t) => (
+                <span class="text-[11px] font-mono px-3 py-1.5 rounded-lg bg-neutral-950 text-amber-300/90 border border-amber-900/40 shadow-sm shadow-amber-950/20">
+                  {t}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : null}
+
+        {links && (links.demo || links.github) ? (
+          <div class="mt-8 flex flex-wrap gap-3 font-mono text-sm">
+            {links.demo && (
+              <a
+                href={links.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/25 motion-safe-active-scale"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                ver_demo
+              </a>
+            )}
+            {links.github && (
+              <a
+                href={links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-6 py-3 border border-neutral-700 hover:border-amber-400/60 bg-neutral-950 hover:bg-neutral-800 text-slate-200 rounded-xl transition motion-safe-active-scale"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                ver_codigo
+              </a>
+            )}
+          </div>
+        ) : null}
       </div>
-    </header>
+    </div>
 
-    {tech?.length ? (
-      <div class="mt-10 flex flex-wrap gap-2.5">
-        {tech.map((t) => (
-          <span class="text-[11px] font-mono px-3 py-1.5 bg-neutral-950 text-amber-400/80 rounded-lg border border-amber-900/30 hover:border-amber-400/50 transition-colors cursor-default">
-            {t}
-          </span>
-        ))}
-      </div>
-    ) : null}
-
-    {links && (links.demo || links.github) ? (
-      <div class="mt-10 flex flex-wrap gap-4 font-mono text-sm">
-        {links.demo && (
-          <a
-            href={links.demo}
-            target="_blank"
-            class="px-8 py-3.5 bg-amber-400 hover:bg-yellow-300 text-neutral-950 font-bold rounded-xl transition-all shadow-xl shadow-amber-500/20 active:scale-95"
-          >
-            ver_demo →
-          </a>
-        )}
-        {links.github && (
-          <a
-            href={links.github}
-            target="_blank"
-            class="px-8 py-3.5 border border-neutral-800 hover:border-amber-400/50 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-xl transition shadow-lg active:scale-95"
-          >
-            ver_codigo →
-          </a>
-        )}
-      </div>
-    ) : null}
-
-    <div class="w-full h-px bg-gradient-to-r from-transparent via-neutral-800 to-transparent mt-16"></div>
-
-    <article class="prose prose-invert prose-neutral max-w-none mt-16
-      prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white
-      prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6
-      prose-p:text-slate-400 prose-p:leading-relaxed
-      prose-li:text-slate-400
-      prose-strong:text-slate-100 prose-strong:font-semibold
-      prose-a:text-amber-400 prose-a:no-underline hover:prose-a:text-amber-300 transition-colors
-      prose-code:text-amber-200 prose-code:bg-neutral-900/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-neutral-800
-      prose-hr:border-neutral-800">
+    <article
+      data-animate
+      class="project-prose mt-10 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6 md:p-10 shadow-xl shadow-black/20
+        prose prose-invert prose-neutral max-w-none
+        prose-headings:font-mono prose-headings:font-semibold prose-headings:tracking-wide prose-headings:text-amber-400/95
+        prose-h2:text-base prose-h2:uppercase prose-h2:mt-0 prose-h2:mb-0 prose-h2:pb-3 prose-h2:not-first:pt-8 prose-h2:not-first:border-t prose-h2:not-first:border-neutral-800
+        prose-p:text-slate-400 prose-p:leading-relaxed prose-p:mt-0
+        prose-ul:my-0 prose-ul:mt-3 prose-ul:rounded-xl prose-ul:border prose-ul:border-neutral-800 prose-ul:bg-neutral-950/70 prose-ul:px-5 prose-ul:py-4 prose-ul:list-none
+        prose-li:text-slate-300 prose-li:my-2 prose-li:pl-0 prose-li:relative prose-li:before:content-['▸'] prose-li:before:text-amber-500/70 prose-li:before:mr-2 prose-li:before:font-mono
+        prose-strong:text-white prose-strong:font-semibold
+        prose-a:text-amber-400 prose-a:no-underline hover:prose-a:text-amber-300
+        prose-code:text-amber-200 prose-code:bg-neutral-950 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:border prose-code:border-neutral-800
+        prose-hr:hidden
+        [&>h2+*]:mb-8 [&>h2+*:last-child]:mb-0"
+    >
       <Content />
     </article>
   </main>

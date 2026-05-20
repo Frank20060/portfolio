@@ -1,0 +1,45 @@
+---
+interface Props {
+  title: string;
+  cover?: string;
+  coverFit?: "cover" | "contain";
+  coverBg?: string;
+  /** aside = columna lateral; inline = junto al título en móvil */
+  layout?: "aside" | "inline";
+}
+
+const { title, cover, coverFit = "cover", coverBg, layout = "aside" } = Astro.props;
+
+const fallbackGradients = [
+  "from-amber-500/20 via-neutral-900 to-neutral-950",
+  "from-yellow-600/15 via-neutral-900 to-neutral-950",
+  "from-orange-500/15 via-neutral-900 to-neutral-950",
+];
+const gradient = fallbackGradients[title.length % fallbackGradients.length];
+const initials = title.slice(0, 2).toUpperCase();
+const imgFit = coverFit === "contain" ? "object-contain p-4 sm:p-6" : "object-cover";
+const coverStyle = coverBg ? `background-color: ${coverBg}` : undefined;
+
+const frameAside =
+  "relative w-full aspect-square max-w-[220px] mx-auto md:max-w-none md:mx-0 md:sticky md:top-28 rounded-2xl overflow-hidden border border-neutral-700/80 shadow-lg shadow-black/30";
+const frameInline =
+  "relative w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden border border-neutral-700/80 shadow-md";
+const frame = layout === "inline" ? frameInline : frameAside;
+---
+
+<figure class={frame} style={coverStyle}>
+  {cover ? (
+    <img
+      src={cover}
+      alt={`Imagen del proyecto ${title}`}
+      class={`w-full h-full ${imgFit}`}
+      loading="eager"
+    />
+  ) : (
+    <div class={`w-full h-full flex items-center justify-center bg-gradient-to-br ${gradient} relative`}>
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+      <span class="font-mono text-3xl sm:text-4xl font-extrabold text-amber-400/25 select-none tracking-widest">{initials}</span>
+    </div>
+  )}
+  <div class="absolute inset-0 ring-1 ring-inset ring-white/5 pointer-events-none rounded-[inherit]"></div>
+</figure>
