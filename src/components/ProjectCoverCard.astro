@@ -1,14 +1,16 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { projectDetailHref, type ProjectLinkFrom } from "../lib/projectLinks";
 import ProjectCoverImage from "./ProjectCoverImage.astro";
 
 type Props = {
   project: CollectionEntry<"projects">;
+  from?: ProjectLinkFrom;
 };
 
-const { project } = Astro.props;
+const { project, from = "projects" } = Astro.props;
 const { title, description, tech, cover, company, role, date, coverFit = "cover", coverBg } = project.data;
-const href = `/projects/${project.id}`;
+const href = projectDetailHref(project.id, from);
 const imgFit = coverFit === "contain" ? "object-contain p-5 sm:p-8" : "object-cover motion-safe-img-zoom";
 const coverStyle = coverBg ? `background-color: ${coverBg}` : undefined;
 

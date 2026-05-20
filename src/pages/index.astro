@@ -81,47 +81,7 @@ const EDUCATION = [
 ];
 ---
 
-<Layout title="Frank Villar | Software Developer">
-	<!-- Navbar -->
-	<a href="#inicio" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-amber-400 focus:text-neutral-950 focus:rounded-lg focus:font-mono focus:text-sm">
-		Saltar al contenido
-	</a>
-	<header data-animate-load class="fixed top-0 w-full backdrop-blur-md bg-neutral-950/90 border-b border-neutral-800 z-50">
-		<nav aria-label="Principal" class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-			<a href="/" class="font-mono text-xl font-bold tracking-tighter text-white hover:text-amber-400 transition">
-				&lt;frank /&gt;
-			</a>
-			<div class="hidden sm:flex gap-6 text-sm font-mono text-slate-400">
-				<a href="#skills" class="nav-link hover:text-amber-400 transition">/skills</a>
-				<a href="#proyectos" class="nav-link hover:text-amber-400 transition">/proyectos</a>
-				<a href="#experiencia" class="nav-link hover:text-amber-400 transition">/experiencia</a>
-				<a href="#contacto" class="nav-link hover:text-amber-400 transition">/contacto</a>
-			</div>
-			<!-- Mobile menu button -->
-			<button
-				id="menu-btn"
-				type="button"
-				class="sm:hidden text-slate-400 hover:text-amber-400 transition"
-				aria-label="Abrir menú de navegación"
-				aria-expanded="false"
-				aria-controls="mobile-menu"
-			>
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-				</svg>
-			</button>
-		</nav>
-		<!-- Mobile menu -->
-		<div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md" hidden>
-			<div class="flex flex-col gap-4 px-6 py-5 text-sm font-mono text-slate-400">
-				<a href="#skills" class="nav-link hover:text-amber-400 transition">/skills</a>
-				<a href="#proyectos" class="nav-link hover:text-amber-400 transition">/proyectos</a>
-				<a href="#experiencia" class="nav-link hover:text-amber-400 transition">/experiencia</a>
-				<a href="#contacto" class="nav-link hover:text-amber-400 transition">/contacto</a>
-			</div>
-		</div>
-	</header>
-
+<Layout title="Frank Villar | Software Developer" nav="home">
 	<main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
 		<!-- HERO -->
 		<section id="inicio" class="py-12 md:py-24 flex flex-col md:flex-row items-center md:items-start gap-12">
@@ -220,7 +180,7 @@ const EDUCATION = [
 			</h2>
 
 			<div data-animate-stagger class="grid grid-cols-1 md:grid-cols-2 gap-6">
-				{featuredProjects.map((p) => <ProjectCoverCard project={p} />)}
+				{featuredProjects.map((p) => <ProjectCoverCard project={p} from="home" />)}
 			</div>
 
 			<div data-animate class="mt-10 text-center">
@@ -313,32 +273,3 @@ const EDUCATION = [
 		<p>Frank Villar · Hecho con Astro & Tailwind · {new Date().getFullYear()}</p>
 	</footer>
 </Layout>
-
-<script>
-	const btn = document.getElementById('menu-btn');
-	const menu = document.getElementById('mobile-menu');
-
-	const setMenuOpen = (open: boolean) => {
-		if (!btn || !menu) return;
-		btn.setAttribute('aria-expanded', String(open));
-		btn.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
-		menu.classList.toggle('hidden', !open);
-		menu.hidden = !open;
-	};
-
-	btn?.addEventListener('click', () => {
-		const isOpen = btn.getAttribute('aria-expanded') === 'true';
-		setMenuOpen(!isOpen);
-	});
-
-	menu?.querySelectorAll('a').forEach((link) => {
-		link.addEventListener('click', () => setMenuOpen(false));
-	});
-
-	document.addEventListener('keydown', (e) => {
-		if (e.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') {
-			setMenuOpen(false);
-			btn.focus();
-		}
-	});
-</script>

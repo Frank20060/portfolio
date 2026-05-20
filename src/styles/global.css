@@ -208,8 +208,13 @@
 }
 
 .nav-link:hover::after,
-.nav-link:focus-visible::after {
+.nav-link:focus-visible::after,
+.nav-link[aria-current="true"]::after {
   width: 100%;
+}
+
+.nav-link[aria-current="true"] {
+  color: #fbbf24;
 }
 
 @layer utilities {

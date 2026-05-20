@@ -3,6 +3,7 @@ import '../../styles/global.css'
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 import ProjectCoverMedia from "../../components/ProjectCoverMedia.astro";
+import { projectBackFromParam } from "../../lib/projectLinks";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -20,19 +21,11 @@ const fmt = (d?: Date) =>
 const when = fmt(date);
 const accentColor = coverBg ?? "#fbbf24";
 const panelStyle = `--project-accent: ${accentColor}`;
+const backFrom = projectBackFromParam(Astro.url.searchParams);
 ---
 
-<Layout title={`${title} | Frank Villar`}>
+<Layout title={`${title} | Frank Villar`} nav="project" backFrom={backFrom} pageTitle={title}>
   <main class="max-w-4xl mx-auto px-6 pt-28 pb-20">
-    <a
-      href="/#proyectos"
-      data-animate-load
-      class="group inline-flex items-center gap-2 text-sm font-mono text-slate-400 hover:text-amber-400 transition mb-8 px-3 py-1.5 rounded-lg border border-transparent hover:border-neutral-800 hover:bg-neutral-900/50"
-    >
-      <span class="group-hover:-translate-x-0.5 transition-transform" aria-hidden="true">←</span>
-      volver_a_proyectos
-    </a>
-
     <div
       data-animate
       class="rounded-2xl border border-neutral-800/90 bg-neutral-900/95 backdrop-blur-md shadow-2xl shadow-black/40 overflow-hidden"

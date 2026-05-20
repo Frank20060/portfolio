@@ -1,0 +1,203 @@
+---
+import { backLinkFor, type ProjectLinkFrom } from "../lib/projectLinks"
+
+export type NavVariant = "home" | "projects" | "project"
+
+interface Props {
+  variant?: NavVariant
+  backFrom?: ProjectLinkFrom
+  pageTitle?: string
+}
+
+const { variant = "home", backFrom = "projects", pageTitle } = Astro.props
+
+const isHome = variant === "home"
+const isProjectsList = variant === "projects"
+const isProject = variant === "project"
+
+const back = isProjectsList
+  ? backLinkFor("home")
+  : backLinkFor(backFrom)
+
+const navSections = [
+  { id: "skills", label: "/skills" },
+  { id: "proyectos", label: "/proyectos" },
+  { id: "experiencia", label: "/experiencia" },
+  { id: "contacto", label: "/contacto" },
+] as const
+
+const backBtnClass =
+  "inline-flex items-center gap-2 text-sm font-mono text-slate-400 hover:text-amber-400 transition border border-neutral-800 hover:border-amber-400/40 bg-neutral-900/50 hover:bg-neutral-900 rounded-xl px-4 py-2 motion-safe-active-scale shrink-0"
+---
+
+<header data-animate-load class="fixed top-0 w-full backdrop-blur-md bg-neutral-950/90 border-b border-neutral-800 z-50">
+  <nav
+    aria-label="Principal"
+    class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between gap-4"
+    data-nav-variant={variant}
+  >
+    <a href="/" class="font-mono text-xl font-bold tracking-tighter text-white hover:text-amber-400 transition shrink-0">
+      &lt;frank /&gt;
+    </a>
+
+    {
+      isHome ? (
+        <>
+          <div class="hidden sm:flex gap-6 text-sm font-mono">
+            {navSections.map(({ id, label }) => (
+              <a
+                href={`#${id}`}
+                data-nav-section={id}
+                class="nav-link text-slate-400 hover:text-amber-400 transition"
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+          <button
+            id="menu-btn"
+            type="button"
+            class="sm:hidden text-slate-400 hover:text-amber-400 transition shrink-0"
+            aria-label="Abrir menú de navegación"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </>
+      ) : (
+        <div class="flex items-center gap-3 min-w-0 flex-1 justify-end">
+          {isProject && pageTitle && (
+            <p class="hidden sm:block text-sm font-medium text-slate-300 truncate max-w-[min(40vw,280px)] text-right mr-1" title={pageTitle}>
+              {pageTitle}
+            </p>
+          )}
+          <a
+            href={back.href}
+            class={backBtnClass}
+            data-back-link={isProject ? true : undefined}
+            aria-label={back.ariaLabel}
+          >
+            <span aria-hidden="true">←</span>
+            <span data-back-label>{back.label}()</span>
+          </a>
+        </div>
+      )
+    }
+  </nav>
+
+  {
+    isHome && (
+      <div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md" hidden>
+        <div class="flex flex-col gap-4 px-6 py-5 text-sm font-mono text-slate-400">
+          {navSections.map(({ id, label }) => (
+            <a href={`#${id}`} data-nav-section={id} class="nav-link hover:text-amber-400 transition">
+              {label}
+            </a>
+          ))}
+        </div>
+      </div>
+    )
+  }
+</header>
+
+<script>
+  const bindMenu = () => {
+    const btn = document.getElementById("menu-btn")
+    const menu = document.getElementById("mobile-menu")
+    if (!btn || !menu || btn.dataset.menuBound) return
+    btn.dataset.menuBound = "true"
+
+    const setMenuOpen = (open) => {
+      btn.setAttribute("aria-expanded", String(open))
+      btn.setAttribute("aria-label", open ? "Cerrar menú de navegación" : "Abrir menú de navegación")
+      menu.classList.toggle("hidden", !open)
+      menu.hidden = !open
+    }
+
+    btn.addEventListener("click", () => {
+      setMenuOpen(btn.getAttribute("aria-expanded") !== "true")
+    })
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setMenuOpen(false))
+    })
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") {
+        setMenuOpen(false)
+        btn.focus()
+      }
+    })
+  }
+
+  const setActiveNav = (sectionId) => {
+    document.querySelectorAll("[data-nav-section]").forEach((link) => {
+      const active = link.getAttribute("data-nav-section") === sectionId
+      link.classList.toggle("text-amber-400", active)
+      link.classList.toggle("text-slate-400", !active)
+      if (active) link.setAttribute("aria-current", "true")
+      else link.removeAttribute("aria-current")
+    })
+  }
+
+  const initNavSpy = () => {
+    const nav = document.querySelector('[data-nav-variant="home"]')
+    if (!nav) return
+
+    const sectionIds = ["skills", "proyectos", "experiencia", "contacto"]
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean)
+    if (!sections.length) return
+
+    const pickSection = () => {
+      const offset = 96
+      let current = sectionIds[0]
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= offset) current = section.id
+      }
+      return current
+    }
+
+    const update = () => setActiveNav(pickSection())
+    update()
+
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        update()
+        ticking = false
+      })
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    nav.querySelectorAll("[data-nav-section]").forEach((link) => {
+      link.addEventListener("click", () => {
+        const id = link.getAttribute("data-nav-section")
+        if (id) setActiveNav(id)
+      })
+    })
+  }
+
+  const initProjectBackLink = () => {
+    const link = document.querySelector("[data-back-link]")
+    if (!link) return
+
+    const labelEl = link.querySelector("[data-back-label]")
+    const fromHome = new URLSearchParams(window.location.search).get("from") === "home"
+    const href = fromHome ? "/#proyectos" : "/projects"
+    const label = fromHome ? "volver_a_inicio" : "volver_a_proyectos"
+    const ariaLabel = fromHome ? "Volver a la sección de proyectos" : "Volver a proyectos"
+
+    link.setAttribute("href", href)
+    link.setAttribute("aria-label", ariaLabel)
+    if (labelEl) labelEl.textContent = `${label}()`
+  }
+
+  bindMenu()
+  initNavSpy()
+  initProjectBackLink()
+</script>
