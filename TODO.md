@@ -10,18 +10,18 @@ Checklist para cumplir el [enunciado IA8](https://astrodaw.vercel.app/moduls/daw
 
 ## Progreso general
 
-| Área | Estado |
-|------|--------|
-| Estructura y diseño | 🟢 Hecho |
-| Enlaces sociales (home) | 🟢 Hecho |
-| Proyectos en el sitio (≥3) | 🟢 3+ fichas |
-| Publicación (URL estable) | 🟢 Vercel |
-| README del portfolio | 🟢 Hecho |
-| Portadas y animaciones | 🟢 Hecho |
-| Repos + README S21 (proyectos enlazados) | 🔴 Pendiente |
-| Accesibilidad IA8 | 🟡 Casi listo |
-| Coherencia global | 🟡 Parcial |
-| Sección «Sobre mí» (S14) | 🔴 Pendiente |
+| Área                                     | Estado        |
+| ---------------------------------------- | ------------- |
+| Estructura y diseño                      | 🟢 Hecho      |
+| Enlaces sociales (home)                  | 🟢 Hecho      |
+| Proyectos en el sitio (≥3)               | 🟢 3+ fichas  |
+| Publicación (URL estable)                | 🟢 Vercel     |
+| README del portfolio                     | 🟢 Hecho      |
+| Portadas y animaciones                   | 🟢 Hecho      |
+| Repos + README S21 (proyectos enlazados) | 🔴 Pendiente  |
+| Accesibilidad IA8                        | 🟡 Casi listo |
+| Coherencia global                        | 🟡 Parcial    |
+| Sección «Sobre mí» (S14)                 | 🔴 Pendiente  |
 
 ---
 
@@ -71,12 +71,12 @@ Checklist para cumplir el [enunciado IA8](https://astrodaw.vercel.app/moduls/daw
 
 ### 2. Proyectos — enlaces honestos
 
-| Proyecto | Ficha web | Repo / demo |
-|----------|-----------|-------------|
-| M-Automoción | ✅ + logo | 🔴 Quitar `example.com` y `tuusuario/tu-repo` o documentar sin repo público |
-| Vinoteca Online | ✅ | ⚠️ Crear repo/demo real o quitar `links` |
-| Portal Shopify | ✅ | ⚠️ Igual |
-| plataforma-shopify | En `/projects` | Revisar si debe mostrarse en home / enlaces |
+| Proyecto           | Ficha web      | Repo / demo                                                                 |
+| ------------------ | -------------- | --------------------------------------------------------------------------- |
+| M-Automoción       | ✅ + logo      | 🔴 Quitar `example.com` y `tuusuario/tu-repo` o documentar sin repo público |
+| Vinoteca Online    | ✅             | ⚠️ Crear repo/demo real o quitar `links`                                    |
+| Portal Shopify     | ✅             | ⚠️ Igual                                                                    |
+| plataforma-shopify | En `/projects` | Revisar si debe mostrarse en home / enlaces                                 |
 
 Tareas:
 
@@ -100,12 +100,12 @@ Tareas:
 
 ## Estructura y mensaje (S14)
 
-| Sección IA8 / S14 | Estado | Acción |
-|-------------------|--------|--------|
-| **Inicio** | 🟡 | Mencionar perfil **DAW** y dónde ver pruebas |
-| **Proyectos** | 🟢 | ≥3 fichas; cerrar repos/demos |
-| **Sobre mí** | 🔴 | Sección `#sobre-mi` + nav (narrativa breve) |
-| **Contacto** | 🟢 | Gmail + LinkedIn |
+| Sección IA8 / S14 | Estado | Acción                                       |
+| ----------------- | ------ | -------------------------------------------- |
+| **Inicio**        | 🟡     | Mencionar perfil **DAW** y dónde ver pruebas |
+| **Proyectos**     | 🟢     | ≥3 fichas; cerrar repos/demos                |
+| **Sobre mí**      | 🔴     | Sección `#sobre-mi` + nav (narrativa breve)  |
+| **Contacto**      | 🟢     | Gmail + LinkedIn                             |
 
 - [ ] Enlace **Sobre mí** en navegación
 - [ ] Coherencia portfolio ↔ GitHub ↔ README de cada proyecto
@@ -133,13 +133,13 @@ Tareas:
 
 ## Inventario de proyectos
 
-| Slug | En home destacados | Repo | Demo |
-|------|-------------------|------|------|
-| `m-automocion-backend` | ✅ | 🔴 placeholder | 🔴 |
-| `vinoteca-web` | ✅ | ⚠️ | ⚠️ |
-| `shopify-learning-portal` | ✅ | ⚠️ | ⚠️ |
-| `plataforma-shopify` | ❓ | ⚠️ | ⚠️ |
-| `portfolio` (este repo) | — | ✅ | 🟢 [Vercel](https://frank-villar-redondo.vercel.app/) |
+| Slug                      | En home destacados | Repo           | Demo                                                  |
+| ------------------------- | ------------------ | -------------- | ----------------------------------------------------- |
+| `m-automocion-backend`    | ✅                 | 🔴 placeholder | 🔴                                                    |
+| `vinoteca-web`            | ✅                 | ⚠️             | ⚠️                                                    |
+| `shopify-learning-portal` | ✅                 | ⚠️             | ⚠️                                                    |
+| `plataforma-shopify`      | ❓                 | ⚠️             | ⚠️                                                    |
+| `portfolio` (este repo)   | —                  | ✅             | 🟢 [Vercel](https://frank-villar-redondo.vercel.app/) |
 
 ---
 

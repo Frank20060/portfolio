@@ -1,4 +1,7 @@
 ---
+import ProjectCoverImage from "./ProjectCoverImage.astro";
+import { resolveCover } from "../lib/covers";
+
 interface Props {
   title: string;
   cover?: string;
@@ -25,15 +28,18 @@ const frameAside =
 const frameInline =
   "relative w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden border border-neutral-700/80 shadow-md";
 const frame = layout === "inline" ? frameInline : frameAside;
+const coverSrc = resolveCover(cover);
 ---
 
 <figure class={frame} style={coverStyle}>
-  {cover ? (
-    <img
-      src={cover}
-      alt={`Imagen del proyecto ${title}`}
+  {coverSrc ? (
+    <ProjectCoverImage
+      cover={cover}
+      title={title}
       class={`w-full h-full ${imgFit}`}
       loading="eager"
+      widths={layout === "inline" ? [128, 256] : [240, 480]}
+      sizes={layout === "inline" ? "128px" : "(max-width: 768px) 220px, 240px"}
     />
   ) : (
     <div class={`w-full h-full flex items-center justify-center bg-gradient-to-br ${gradient} relative`}>

@@ -318,7 +318,7 @@ const EDUCATION = [
 	const btn = document.getElementById('menu-btn');
 	const menu = document.getElementById('mobile-menu');
 
-	const setMenuOpen = (open) => {
+	const setMenuOpen = (open: boolean) => {
 		if (!btn || !menu) return;
 		btn.setAttribute('aria-expanded', String(open));
 		btn.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');

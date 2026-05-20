@@ -41,9 +41,9 @@ Sitio estático, rápido y accesible, pensado para reclutadores y para la entreg
 ```text
 portfolio/
 ├── public/
-│   ├── covers/          # Portadas de proyectos (SVG/PNG)
 │   └── favicon.svg
 ├── src/
+│   ├── assets/          # Imágenes optimizadas con astro:assets
 │   ├── components/      # Cards, foto de perfil, animaciones…
 │   ├── content/projects/  # Fichas .md de cada proyecto
 │   ├── layouts/

@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import { profilePhotoSrc } from "../lib/profilePhoto";
+
 interface Props {
   size?: "sm" | "md";
   class?: string;
@@ -11,6 +14,7 @@ const frame =
     ? "w-32 h-32 md:w-40 md:h-40 rounded-2xl"
     : "w-48 h-48 md:w-64 md:h-64 rounded-3xl";
 const blurRadius = size === "sm" ? "rounded-2xl" : "rounded-3xl";
+const dimension = size === "sm" ? 160 : 256;
 ---
 
 <div class:list={["relative group shrink-0", className]}>
@@ -27,15 +31,16 @@ const blurRadius = size === "sm" ? "rounded-2xl" : "rounded-3xl";
       frame,
     ]}
   >
-    <img
-      src="/frank-villar.png"
+    <Image
+      src={profilePhotoSrc}
       alt="Frank Villar"
-      width="256"
-      height="256"
-      class="w-full h-full object-cover"
+      width={dimension}
+      height={dimension}
+      widths={[dimension, dimension * 2]}
+      sizes={`${dimension}px`}
       loading="eager"
       decoding="async"
-      onerror="this.onerror=null;this.src='/frank-villar-fallback.svg';"
+      class="w-full h-full object-cover"
     />
   </div>
 </div>
