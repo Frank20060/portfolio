@@ -8,7 +8,7 @@ tech: ["React", "TypeScript", "React Router", "Tailwind CSS", "JSON Server", "Vi
 links:
   demo: "https://shopify-learning-portal.vercel.app"
   github: "https://github.com/Frank20060/shopify-learning-portal"
-featured: true
+featured: false
 cover: "/covers/shopify.svg"
 ---
 
