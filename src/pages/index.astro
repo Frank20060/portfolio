@@ -79,6 +79,7 @@ const EDUCATION = [
     period: "2022"
   }
 ];
+
 ---
 
 <Layout title="Frank Villar | Software Developer" nav="home">
@@ -258,10 +259,46 @@ const EDUCATION = [
 						<span class="text-sm font-mono text-amber-400/70 shrink-0 w-40">{edu.period}</span>
 						<div class="flex-1 bg-neutral-900/60 border border-neutral-800 group-hover:border-amber-400/40 rounded-xl px-5 py-4 transition motion-safe-hover-lift">
 							<h3 class="text-white font-medium text-[15px]">{edu.title}</h3>
-							<p class="text-slate-500 text-sm">{edu.center}</p>
+							<p class="text-slate-400 text-sm">{edu.center}</p>
 						</div>
 					</div>
 				))}
+			</div>
+		</section>
+
+		<!-- SOBRE MÍ -->
+		<section id="sobre-mi" class="py-16 border-t border-neutral-800">
+			<h2 data-animate class="text-2xl font-bold mb-10 flex items-center gap-2 font-mono text-slate-200">
+				<span class="text-amber-400">#</span> sobre_mi
+			</h2>
+			<div data-animate-stagger class="max-w-3xl space-y-6 text-slate-400 text-[15px] md:text-lg leading-relaxed font-light">
+				<p>
+					<strong class="font-semibold text-slate-200">Desarrollador Backend</strong> con experiencia en
+					<em class="text-slate-300 italic">automatización de procesos de negocio</em>
+					(<abbr title="Business Process Automation" class="text-amber-400/90 font-mono text-sm no-underline">BPA</abbr> /
+					<abbr title="Robotic Process Automation" class="text-amber-400/90 font-mono text-sm no-underline">RPA</abbr>)
+					y optimización de <em class="text-slate-300 italic">flujos de datos</em>.
+					Mi enfoque principal es <strong class="font-medium text-slate-300">conectar sistemas</strong> y construir soluciones
+					eficientes que eliminen tareas manuales repetitivas — para que las empresas operen con más agilidad y
+					<span class="text-slate-300">menos errores humanos</span>.
+				</p>
+				<p>
+					Tengo experiencia real en <strong class="font-medium text-slate-300">entornos corporativos complejos</strong>:
+					scripts en <span class="text-amber-400/90 font-mono text-[0.9em]">Python</span>,
+					APIs REST con <span class="text-amber-400/90 font-mono text-[0.9em]">Django</span> y flujos exigentes como la
+					automatización de portales <span class="text-amber-400/90">Microsoft</span>,
+					<em class="text-slate-300 italic">extracción segura de datos</em> mediante web scraping e integración logística
+					con ERPs cerrados como <span class="font-medium text-slate-300">Quiter</span>.
+					Además, diseño y optimizo consultas <span class="text-amber-400/90 font-mono text-[0.9em]">SQL</span> en
+					<span class="text-amber-400/90 font-mono text-[0.9em]">PostgreSQL</span> para mantener un rendimiento sólido en producción.
+				</p>
+				<p>
+					Me apasiona la <strong class="font-semibold text-slate-200">ingeniería de software</strong> y creo que el código debe
+					resolver <em class="text-amber-400/80 italic font-medium">problemas reales de negocio</em>.
+					Me gustaría compaginar mi trayectoria profesional con la formación en
+					<strong class="font-medium text-slate-300">Ingeniería Informática</strong> para seguir creciendo técnicamente
+					y aplicar buenas prácticas de <span class="text-slate-300">arquitectura</span> y <span class="text-slate-300">diseño</span> en cada solución.
+				</p>
 			</div>
 		</section>
 
@@ -271,7 +308,7 @@ const EDUCATION = [
 			<p class="text-slate-400 max-w-lg mx-auto mb-4">
 				Estoy disponible para nuevas oportunidades. El botón de correo abre Gmail con un mensaje listo; también puedes contactarme por LinkedIn.
 			</p>
-			<p class="text-slate-500 text-sm font-mono mb-8">Barcelona · Disponible para incorporación inmediata</p>
+			<p class="text-slate-400 text-sm font-mono mb-8">Barcelona · Disponible para incorporación inmediata</p>
 			
 			<div data-animate-stagger class="flex flex-col sm:flex-row gap-4 justify-center">
 				<a
@@ -292,7 +329,7 @@ const EDUCATION = [
 		</section>
 	</main>
 
-	<footer class="border-t border-neutral-800 py-10 text-center text-xs font-mono text-neutral-500">
+	<footer class="border-t border-neutral-800 py-10 text-center text-xs font-mono text-neutral-400">
 		<p>Frank Villar · Hecho con Astro & Tailwind · {new Date().getFullYear()}</p>
 	</footer>
 </Layout>
