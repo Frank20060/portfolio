@@ -36,6 +36,11 @@
       opacity: 1 !important;
       transform: none !important;
     }
+
+    .text-shimmer,
+    .animate-glow-drift {
+      animation: none !important;
+    }
   }
 }
 
@@ -120,29 +125,32 @@
   }
 }
 
-[data-animate],
-[data-animate-stagger] > * {
-  opacity: 0;
-}
+/* Contenido visible por defecto (sin JS). Animación solo con .motion-ready */
+@media (prefers-reduced-motion: no-preference) {
+  html.motion-ready [data-animate],
+  html.motion-ready [data-animate-stagger] > * {
+    opacity: 0;
+  }
 
-[data-animate].is-visible {
-  animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
+  html.motion-ready [data-animate-load] {
+    opacity: 0;
+  }
 
-[data-animate="scale"].is-visible {
-  animation: scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
+  html.motion-ready [data-animate].is-visible {
+    animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
 
-[data-animate-load] {
-  opacity: 0;
-}
+  html.motion-ready [data-animate="scale"].is-visible {
+    animation: scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
 
-[data-animate-load].is-visible {
-  animation: fade-down 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
+  html.motion-ready [data-animate-load].is-visible {
+    animation: fade-down 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
 
-[data-animate-stagger].is-visible > * {
-  animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  html.motion-ready [data-animate-stagger].is-visible > * {
+    animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
 }
 
 [data-animate-stagger].is-visible > *:nth-child(1) {
@@ -209,12 +217,20 @@
 
 .nav-link:hover::after,
 .nav-link:focus-visible::after,
-.nav-link[aria-current="true"]::after {
+.nav-link[aria-current="location"]::after,
+.nav-link.nav-link--active::after {
   width: 100%;
 }
 
-.nav-link[aria-current="true"] {
+.nav-link[aria-current="location"],
+.nav-link.nav-link--active {
   color: #fbbf24;
+  font-weight: 600;
+}
+
+.nav-link[aria-current="location"]::after,
+.nav-link.nav-link--active::after {
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.45);
 }
 
 @layer utilities {
