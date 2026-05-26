@@ -20,10 +20,11 @@ const back = isProjectsList
   : backLinkFor(backFrom)
 
 const navSections = [
-  { id: "skills", label: "/skills" },
-  { id: "proyectos", label: "/proyectos" },
-  { id: "experiencia", label: "/experiencia" },
-  { id: "contacto", label: "/contacto" },
+  { id: "skills", label: "/stack", ariaLabel: "Ir a stack técnico" },
+  { id: "proyectos", label: "/proyectos", ariaLabel: "Ir a proyectos destacados" },
+  { id: "experiencia", label: "/experiencia", ariaLabel: "Ir a experiencia laboral" },
+  { id: "sobre-mi", label: "/sobre_mi", ariaLabel: "Ir a sobre mí" },
+  { id: "contacto", label: "/contacto", ariaLabel: "Ir a contacto" },
 ] as const
 
 const backBtnClass =
@@ -44,10 +45,11 @@ const backBtnClass =
       isHome ? (
         <>
           <div class="hidden sm:flex gap-6 text-sm font-mono">
-            {navSections.map(({ id, label }) => (
+            {navSections.map(({ id, label, ariaLabel }) => (
               <a
                 href={`#${id}`}
                 data-nav-section={id}
+                aria-label={ariaLabel}
                 class="nav-link text-slate-400 hover:text-amber-400 transition"
               >
                 {label}
@@ -81,7 +83,7 @@ const backBtnClass =
             aria-label={back.ariaLabel}
           >
             <span aria-hidden="true">←</span>
-            <span data-back-label>{back.label}()</span>
+            <span data-back-label>{back.label}</span>
           </a>
         </div>
       )
@@ -90,10 +92,15 @@ const backBtnClass =
 
   {
     isHome && (
-      <div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md" hidden>
+      <div id="mobile-menu" class="hidden sm:hidden border-t border-neutral-800 bg-neutral-950/95 backdrop-blur-md" hidden aria-hidden="true">
         <div class="flex flex-col gap-4 px-6 py-5 text-sm font-mono text-slate-400">
-          {navSections.map(({ id, label }) => (
-            <a href={`#${id}`} data-nav-section={id} class="nav-link hover:text-amber-400 transition">
+          {navSections.map(({ id, label, ariaLabel }) => (
+            <a
+              href={`#${id}`}
+              data-nav-section={id}
+              aria-label={ariaLabel}
+              class="nav-link hover:text-amber-400 transition text-slate-400"
+            >
               {label}
             </a>
           ))}
@@ -115,14 +122,25 @@ const backBtnClass =
       btn.setAttribute("aria-label", open ? "Cerrar menú de navegación" : "Abrir menú de navegación")
       menu.classList.toggle("hidden", !open)
       menu.hidden = !open
+      menu.setAttribute("aria-hidden", String(!open))
+
+      if (open) {
+        const firstLink = menu.querySelector("a")
+        firstLink?.focus()
+      } else {
+        btn.focus()
+      }
     }
 
     btn.addEventListener("click", () => {
-      setMenuOpen(btn.getAttribute("aria-expanded") !== "true")
+      const willOpen = btn.getAttribute("aria-expanded") !== "true"
+      setMenuOpen(willOpen)
     })
 
     menu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => setMenuOpen(false))
+      link.addEventListener("click", () => {
+        setMenuOpen(false)
+      })
     })
 
     document.addEventListener("keydown", (e) => {
@@ -133,48 +151,68 @@ const backBtnClass =
     })
   }
 
-  const NAV_SECTION_IDS = ["skills", "proyectos", "experiencia", "contacto"]
+  const NAV_SECTION_IDS = ["skills", "proyectos", "experiencia", "sobre-mi", "contacto"]
   const HEADER_OFFSET = 96
-  const BOTTOM_THRESHOLD = 140
   const TOP_BUFFER = 48
+  /** Línea de lectura (~30 % del viewport bajo el header) para activar sección */
+  const activationDocY = () =>
+    window.scrollY + HEADER_OFFSET + window.innerHeight * 0.3
 
   const setActiveNav = (sectionId) => {
     document.querySelectorAll("[data-nav-section]").forEach((link) => {
       const active = Boolean(sectionId) && link.getAttribute("data-nav-section") === sectionId
+      link.classList.toggle("nav-link--active", active)
       link.classList.toggle("text-amber-400", active)
       link.classList.toggle("text-slate-400", !active)
-      if (active) link.setAttribute("aria-current", "true")
+      if (active) link.setAttribute("aria-current", "location")
       else link.removeAttribute("aria-current")
     })
   }
 
+  /**
+   * Activa la sección que contiene la línea de lectura (no la de mayor área visible).
+   * Al final de página fuerza contacto: la línea suele quedar en el footer, no en #contacto.
+   */
   const pickActiveSection = (sections) => {
     if (!sections.length) return null
 
     const scrollY = window.scrollY
-    const viewportBottom = scrollY + window.innerHeight
-    const pageBottom = document.documentElement.scrollHeight
-
-    if (pageBottom - viewportBottom <= BOTTOM_THRESHOLD) {
-      return "contacto"
-    }
-
-    const contacto = document.getElementById("contacto")
-    if (contacto) {
-      const { top, bottom } = contacto.getBoundingClientRect()
-      const inView = top < window.innerHeight * 0.6 && bottom > HEADER_OFFSET + 24
-      if (inView) return "contacto"
-    }
-
     const firstSection = sections[0]
     if (scrollY < firstSection.offsetTop - HEADER_OFFSET - TOP_BUFFER) {
       return null
     }
 
-    const marker = scrollY + HEADER_OFFSET
+    const lastSection = sections[sections.length - 1]
+    const distanceFromBottom =
+      document.documentElement.scrollHeight - (scrollY + window.innerHeight)
+
+    if (distanceFromBottom < 160) {
+      return lastSection.id
+    }
+
+    const line = activationDocY()
+    const lastEnd = lastSection.offsetTop + lastSection.offsetHeight
+
+    if (line >= lastEnd - 48) {
+      return lastSection.id
+    }
+
+    if (lastSection.id === "contacto") {
+      const { top: contactTop } = lastSection.getBoundingClientRect()
+      if (contactTop <= window.innerHeight * 0.45) {
+        return "contacto"
+      }
+    }
+
+    for (const section of sections) {
+      const start = section.offsetTop
+      const end = start + section.offsetHeight
+      if (start <= line && end > line) return section.id
+    }
+
     let current = null
     for (const section of sections) {
-      if (section.offsetTop <= marker) current = section.id
+      if (section.offsetTop <= line) current = section.id
     }
     return current
   }
@@ -284,12 +322,12 @@ const backBtnClass =
     const labelEl = link.querySelector("[data-back-label]")
     const fromHome = new URLSearchParams(window.location.search).get("from") === "home"
     const href = fromHome ? "/#proyectos" : "/projects"
-    const label = fromHome ? "volver_a_inicio" : "volver_a_proyectos"
-    const ariaLabel = fromHome ? "Volver a la sección de proyectos" : "Volver a proyectos"
+    const label = fromHome ? "Volver al inicio" : "Volver a proyectos"
+    const ariaLabel = fromHome ? "Volver a la sección de proyectos en el inicio" : "Volver a la lista de proyectos"
 
     link.setAttribute("href", href)
     link.setAttribute("aria-label", ariaLabel)
-    if (labelEl) labelEl.textContent = `${label}()`
+    if (labelEl) labelEl.textContent = label
   }
 
   bindMenu()

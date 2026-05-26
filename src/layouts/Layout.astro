@@ -9,18 +9,37 @@ interface Props {
 	nav?: NavVariant;
 	backFrom?: ProjectLinkFrom;
 	pageTitle?: string;
+	description?: string;
 }
 
-const { title, nav = "home", backFrom = "projects", pageTitle } = Astro.props;
+const { title, nav = "home", backFrom = "projects", pageTitle, description } = Astro.props;
+
+const siteUrl = Astro.site ?? "https://frank-villar-redondo.vercel.app";
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const metaDescription =
+	description ??
+	"Frank Villar — Desarrollador backend y automatización. Portfolio DAW con proyectos en Python, Django, React y Next.js.";
+const ogTitle = title;
 ---
 
 <!doctype html>
 <html lang="es" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Frank Villar — Desarrollador backend y automatización. Portfolio DAW con proyectos en Python, Django, React y Next.js." />
+		<title>{title}</title>
+		<meta name="description" content={metaDescription} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="canonical" href={canonicalUrl} />
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="es_ES" />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:title" content={ogTitle} />
+		<meta property="og:description" content={metaDescription} />
+		<meta property="og:site_name" content="Frank Villar — Portfolio" />
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={ogTitle} />
+		<meta name="twitter:description" content={metaDescription} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -35,7 +54,6 @@ const { title, nav = "home", backFrom = "projects", pageTitle } = Astro.props;
 				rel="stylesheet"
 			/>
 		</noscript>
-		<title>{title}</title>
 	</head>
 	<body class="bg-neutral-950 text-slate-100 font-sans min-h-screen selection:bg-amber-400 selection:text-neutral-950">
 		<div class="pointer-events-none fixed inset-0 z-[-2] overflow-hidden" aria-hidden="true">
