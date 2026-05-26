@@ -9,7 +9,6 @@ import ProfilePhoto from "../components/ProfilePhoto.astro";
 const projects = await getCollection("projects");
 const featuredProjects = projects.filter((p) => p.data.destacado === true || p.data.featured === true);
 
-// opcional: ordenar por date desc si existe
 featuredProjects.sort((a, b) => {
   const ad = a.data.date ? a.data.date.getTime() : 0;
   const bd = b.data.date ? b.data.date.getTime() : 0;
@@ -118,7 +117,10 @@ const EDUCATION = [
 					</a>
 					<a href="https://github.com/Frank20060" target="_blank" rel="noopener noreferrer"
 					   class="px-6 py-4 border border-neutral-800 hover:border-amber-400/50 bg-neutral-900 hover:bg-neutral-800 text-slate-300 rounded-2xl transition flex items-center gap-2 motion-safe-active-scale">
-						GitHub →
+						<span class="sr-only">GitHub</span>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="w-5 h-5">
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.24c0 4.47 2.87 8.26 6.84 9.6.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.36-3.37-1.36-.45-1.17-1.11-1.49-1.11-1.49-.91-.63.07-.62.07-.62 1 .08 1.53 1.05 1.53 1.05.89 1.57 2.34 1.12 2.91.86.09-.66.35-1.12.62-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.38-2.04 1-2.76-.1-.27-.42-1.35.09-2.8 0 0 .83-.27 2.75 1.03A9.34 9.34 0 0 1 12 6.84c.84.004 1.68.11 2.47.32 1.91-1.31 2.74-1.04 2.74-1.04.51 1.45.19 2.53.09 2.8.63.72 1 1.64 1 2.76 0 3.93-2.35 4.8-4.58 5.06.36.32.68.95.68 1.91 0 1.38-.01 2.5-.01 2.84 0 .27.18.58.69.48C19.13 20.5 22 16.71 22 12.24 22 6.58 17.52 2 12 2z"/>
+						</svg>
 					</a>
 				</div>
 			</div>
