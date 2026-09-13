@@ -1,0 +1,28 @@
+<svg width="1200" height="750" viewBox="0 0 1200 750" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="750" rx="28" fill="#1D1F22"/>
+  <rect x="1" y="1" width="1198" height="748" rx="27" stroke="#3C3F43" stroke-width="2"/>
+  <path d="M0 114H1200" stroke="#383B3F" stroke-width="2"/>
+  <text x="40" y="49" fill="#F5F3EE" font-family="Georgia, serif" font-size="27" font-weight="700">Grand Motors</text>
+  <text x="41" y="72" fill="#9C9B98" font-family="Arial, sans-serif" font-size="10" letter-spacing="3">CONCESIONARIO OFICIAL</text>
+  <text x="742" y="59" fill="#D6D4D0" font-family="Arial, sans-serif" font-size="15" font-weight="600">Catálogo</text>
+  <text x="823" y="59" fill="#D6D4D0" font-family="Arial, sans-serif" font-size="15" font-weight="600">FAQ</text>
+  <text x="869" y="59" fill="#D6D4D0" font-family="Arial, sans-serif" font-size="15" font-weight="600">Sobre nosotros</text>
+  <rect x="1028" y="33" width="63" height="32" rx="16" fill="#2A2D31" stroke="#606368"/>
+  <circle cx="1045" cy="49" r="10" fill="#FFF8C6"/>
+  <circle cx="1049" cy="45" r="10" fill="#2A2D31"/>
+  <circle cx="1073" cy="49" r="4" fill="#F0A01A"/>
+  <rect x="1114" y="29" width="128" height="40" rx="8" fill="#B95928"/>
+  <text x="1134" y="54" fill="#FFF8F0" font-family="Arial, sans-serif" font-size="14" font-weight="700">Contáctanos</text>
+  <text x="40" y="218" fill="#F08A00" font-family="Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="4">VEHÍCULOS EN STOCK</text>
+  <text x="40" y="302" fill="#F5F3EE" font-family="Georgia, serif" font-size="60" font-weight="700">Encuentre su próximo</text>
+  <text x="40" y="370" fill="#F5F3EE" font-family="Georgia, serif" font-size="60" font-weight="700">vehículo</text>
+  <text x="40" y="423" fill="#D7D5D1" font-family="Arial, sans-serif" font-size="18">Selección de automóviles revisados por nuestros técnicos. Transparencia en</text>
+  <text x="40" y="450" fill="#D7D5D1" font-family="Arial, sans-serif" font-size="18">precio, historial y condiciones de venta.</text>
+  <rect x="40" y="496" width="1120" height="96" rx="15" fill="#292B2F" stroke="#484B4F"/>
+  <path d="M600 496V592" stroke="#484B4F"/>
+  <text x="64" y="542" fill="#F08A00" font-family="Arial, sans-serif" font-size="25" font-weight="700">3</text>
+  <text x="64" y="566" fill="#9F9D99" font-family="Arial, sans-serif" font-size="14">Vehículos en venta</text>
+  <text x="624" y="542" fill="#F08A00" font-family="Arial, sans-serif" font-size="25" font-weight="700">12</text>
+  <text x="624" y="566" fill="#9F9D99" font-family="Arial, sans-serif" font-size="14">Meses de garantía</text>
+  <rect x="840" y="744" width="180" height="6" fill="#F05D21"/>
+</svg>
