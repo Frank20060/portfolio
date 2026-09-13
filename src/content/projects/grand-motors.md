@@ -62,4 +62,10 @@ Next.js 16 · React 19 · TypeScript · Django 5 · PostgreSQL · Cloudinary · 
 
 ## Código
 
-El [frontend público](https://grandmotors.vercel.app/) está desplegado en Vercel y el [backend con panel de administración](https://intragrandmotors.onrender.com/) en Render. El proyecto está documentado y disponible en [GitHub](https://github.com/Frank20060/proyecto-concesionario/tree/main), con instrucciones para levantar frontend y backend, variables de entorno, despliegue y migración de imágenes.
+🔗 [Frontend público](https://grandmotors.vercel.app/)
+
+🔗 [Backend con panel de administración](https://intragrandmotors.onrender.com/)
+
+🔗 [Repositorio en GitHub](https://github.com/Frank20060/proyecto-concesionario/tree/main)
+
+El proyecto incluye instrucciones para levantar frontend y backend, variables de entorno, despliegue y migración de imágenes.
